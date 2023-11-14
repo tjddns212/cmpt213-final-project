@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_calender">
+
+    <fragment
+        android:id="@+id/nav_calender"
+        android:name="group6.learnlock.ui.calender.CalenderFragment"
+        android:label="@string/menu_calender"
+        tools:layout="@layout/fragment_calender" />
+
+    <fragment
+        android:id="@+id/nav_clock"
+        android:name="group6.learnlock.ui.clock.ClockFragment"
+        android:label="@string/menu_clock"
+        tools:layout="@layout/fragment_clock" />
+
+    <fragment
+        android:id="@+id/nav_flash"
+        android:name="group6.learnlock.ui.flashcards.FlashcardsFragment"
+        android:label="@string/menu_flash"
+        tools:layout="@layout/fragment_flashcards" />
+</navigation>
