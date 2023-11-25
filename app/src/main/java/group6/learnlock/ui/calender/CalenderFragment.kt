@@ -9,6 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import group6.learnlock.databinding.FragmentCalenderBinding
 
+
+
+
+
 class CalenderFragment : Fragment() {
 
     private var _binding: FragmentCalenderBinding? = null
@@ -28,10 +32,8 @@ class CalenderFragment : Fragment() {
         _binding = FragmentCalenderBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+
+
         return root
     }
 

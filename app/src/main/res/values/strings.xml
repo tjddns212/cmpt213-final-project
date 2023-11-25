@@ -10,4 +10,6 @@
     <string name="menu_calender">Calender</string>
     <string name="menu_clock">Clock/App block</string>
     <string name="menu_flash">Flash cards</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
