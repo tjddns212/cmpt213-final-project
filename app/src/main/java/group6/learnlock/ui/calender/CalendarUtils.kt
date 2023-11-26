@@ -53,7 +53,6 @@ class CalendarUtils {
 
         var selectedDate: LocalDate? = null
     }
-    //val selectedDate: LocalDate? = null
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun formattedDate(date: LocalDate): String {

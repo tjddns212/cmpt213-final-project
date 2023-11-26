@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.GridLayout
 import android.widget.ListView
 import android.widget.TextView
@@ -34,6 +35,7 @@ class CalenderFragment : Fragment(), CalendarAdapter.OnItemListener {
     private lateinit var calendarRecyclerView: RecyclerView
     private lateinit var classList: ListView
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,8 +44,23 @@ class CalenderFragment : Fragment(), CalendarAdapter.OnItemListener {
         val homeViewModel =
             ViewModelProvider(this).get(CalenderViewModel::class.java)
 
+        CalendarUtils.selectedDate = LocalDate.now()
+
+
         _binding = FragmentCalenderBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        val lastWeekBtn: Button = root.findViewById(R.id.lastWeekBtn)
+        val nextWeekBtn: Button = root.findViewById(R.id.nextWeekBtn)
+
+        lastWeekBtn.setOnClickListener {
+            previousWeek(it)
+        }
+
+        nextWeekBtn.setOnClickListener {
+            nextWeek(it)
+        }
+
 
         initWidgets(root)
         setWeekView()
@@ -81,13 +98,13 @@ class CalenderFragment : Fragment(), CalendarAdapter.OnItemListener {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun previousWeekAction(view: View) {
+    fun previousWeek(view: View) {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate!!.minusWeeks(1)
         setWeekView()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun nextWeekAction(view: View) {
+    fun nextWeek(view: View) {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate!!.plusWeeks(1)
         setWeekView()
     }

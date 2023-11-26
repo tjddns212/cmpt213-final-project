@@ -23,7 +23,7 @@
             android:textColor="@color/black"
             android:background="@null"
             android:textStyle="bold"
-            android:onClick="previousWeek"
+            android:id="@+id/lastWeekBtn"
             android:textSize="20sp"/>
 
         <TextView
@@ -44,7 +44,7 @@
             android:textColor="@color/black"
             android:background="@null"
             android:textStyle="bold"
-            android:onClick="nextWeek"
+            android:id="@+id/nextWeekBtn"
             android:textSize="20sp"/>
 
     </LinearLayout>
