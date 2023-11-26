@@ -2,7 +2,6 @@ package group6.learnlock
 
 import android.os.Bundle
 import android.view.Menu
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -32,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_calender, R.id.nav_clock, R.id.nav_flash
+                R.id.nav_calender, R.id.nav_clock, R.id.nav_flash, R.id.nav_archive
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
