@@ -2,31 +2,31 @@ package group6.learnlock.ui.flashcards
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import group6.learnlock.databinding.FlashcardItemBinding
-import group6.learnlock.databinding.FlashcardItemBinding.inflate as inflate1
 
-class FlashcardsAdapter(private val flashcards: List<String>) :
+
+
+class FlashcardsAdapter(private val flashcards: List<Flashcard>) :
     RecyclerView.Adapter<FlashcardsAdapter.FlashcardViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FlashcardViewHolder {
-        val binding = inflate1(LayoutInflater.from(parent.context), parent, false)
+        val binding = FlashcardItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return FlashcardViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: FlashcardViewHolder, position: Int) {
-        val item = flashcards[position]
-        holder.bind(item)
+        val flashcard = flashcards[position]
+        with(holder.binding) {
+            // Make sure you use the correct ID here
+            cardView.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.context, flashcard.backgroundColor))
+            flashcardTitle.text = flashcard.title
+            flashcardDescription.text = flashcard.description
+        }
     }
 
     override fun getItemCount(): Int = flashcards.size
 
-    inner class FlashcardViewHolder(private val binding: FlashcardItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(text: String) {
-            binding.flashcardText.text = text
-            // Set your item data here
-        }
-    }
+    class FlashcardViewHolder(val binding: FlashcardItemBinding) : RecyclerView.ViewHolder(binding.root)
 }
