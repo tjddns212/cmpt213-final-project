@@ -14,6 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import group6.learnlock.AssignmentApplication
 import group6.learnlock.databinding.FragmentCalenderBinding
 
+
+
+
+
 class CalenderFragment : Fragment() {
 
     private var _binding: FragmentCalenderBinding? = null
@@ -29,7 +33,7 @@ class CalenderFragment : Fragment() {
     ): View {
         _binding = FragmentCalenderBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        recyclerView=binding.recycleView
+        recyclerView=binding.recyclerView
         recyclerView.layoutManager=LinearLayoutManager(requireContext())
         assignmentAdapter = AssignmentAdapter()
         recyclerView.adapter=assignmentAdapter
@@ -38,7 +42,6 @@ class CalenderFragment : Fragment() {
         calenderViewModel.myAllAssignments.observe(viewLifecycleOwner, Observer{ assignments->
             assignmentAdapter.setAssignment(assignments)
         })
-
 
 
         return root
