@@ -2,6 +2,7 @@ package group6.learnlock.ui.calender
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import group6.learnlock.model.Assignment
@@ -26,4 +27,13 @@ class CalenderViewModel(private val repository: AssignmentRepository) : ViewMode
         repository.deleteAllAssignments()
     }
 
+}
+class CalendarViewModelFactory(private var repository: AssignmentRepository):ViewModelProvider.Factory{
+    override fun <T:ViewModel> create(modelClass: Class<T>):T{
+        if(modelClass.isAssignableFrom(CalenderViewModel::class.java)){
+            return CalenderViewModel(repository) as T
+        }else{
+            throw IllegalArgumentException("Unkown view model")
+        }
+    }
 }

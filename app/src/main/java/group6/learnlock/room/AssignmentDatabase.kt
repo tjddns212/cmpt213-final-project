@@ -40,9 +40,9 @@ abstract class AssignmentDatabase : RoomDatabase(){
             INSTANCE?.let{database->
                 scope.launch {
                     val assignmentDao = database.getAssignmentDao()
-                    assignmentDao.insert(Assignment("Title 1","Description 1", "dueDateTime 1"))
-                    assignmentDao.insert(Assignment("Title 2","Description 2", "dueDateTime 2"))
-                    assignmentDao.insert(Assignment("Title 3","Description 3", "dueDateTime 3"))
+                    assignmentDao.insert(Assignment("Title 1","Description 1", 1))
+                    assignmentDao.insert(Assignment("Title 2","Description 2", 2))
+                    assignmentDao.insert(Assignment("Title 3","Description 3", 3))
                 }
 
             }

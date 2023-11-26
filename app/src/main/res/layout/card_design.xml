@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/dueDateTextView"
+            android:id="@+id/constraint"
             android:layout_width="match_parent"
             android:layout_height="75dp">
 
@@ -59,12 +59,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
                 android:text="TextView"
-                app:layout_constraintBottom_toTopOf="@+id/textView5"
+                app:layout_constraintBottom_toTopOf="@+id/dueDateTextView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/dueDateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
