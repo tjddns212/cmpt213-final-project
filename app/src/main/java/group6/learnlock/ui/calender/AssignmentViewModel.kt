@@ -10,7 +10,7 @@ import group6.learnlock.repository.AssignmentRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CalenderViewModel(private val repository: AssignmentRepository) : ViewModel() {
+class AssignmentViewModel(private val repository: AssignmentRepository) : ViewModel() {
 
     val myAllAssignments : LiveData<List<Assignment>> =repository.myAllAssignments.asLiveData()
 
@@ -30,8 +30,8 @@ class CalenderViewModel(private val repository: AssignmentRepository) : ViewMode
 }
 class CalendarViewModelFactory(private var repository: AssignmentRepository):ViewModelProvider.Factory{
     override fun <T:ViewModel> create(modelClass: Class<T>):T{
-        if(modelClass.isAssignableFrom(CalenderViewModel::class.java)){
-            return CalenderViewModel(repository) as T
+        if(modelClass.isAssignableFrom(AssignmentViewModel::class.java)){
+            return AssignmentViewModel(repository) as T
         }else{
             throw IllegalArgumentException("Unkown view model")
         }
