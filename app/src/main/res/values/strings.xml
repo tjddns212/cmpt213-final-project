@@ -8,8 +8,14 @@
     <string name="menu_calender">Calender</string>
     <string name="menu_clock">Clock/App block</string>
     <string name="menu_flash">Flash cards</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="menu_archive">Archive</string>
+
+    <string name="start">Start</string>
+    <string name="pause">Pause</string>
+    <string name="resume">Resume</string>
+    <string name="timer_default">60:00</string>
+    <string name="session_end_message">Focused session has ended</string>
+    <string name="ok">OK</string>
 
 </resources>
