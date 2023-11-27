@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import group6.learnlock.databinding.FragmentCalenderBinding
 
-class CalenderFragment : Fragment() {
+class gitCalenderFragment : Fragment() {
 
     private var _binding: FragmentCalenderBinding? = null
     private val binding get() = _binding!!
