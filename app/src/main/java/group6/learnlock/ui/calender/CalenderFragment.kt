@@ -25,7 +25,7 @@ class gitCalenderFragment : Fragment() {
     ): View {
         _binding = FragmentCalenderBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        recyclerView=binding.recycleView
+        recyclerView=binding.recyclerView
 
 
         recyclerView.layoutManager=LinearLayoutManager(requireContext())

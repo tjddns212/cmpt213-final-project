@@ -7,10 +7,14 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import group6.learnlock.R
+import group6.learnlock.model.Assignment
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class AssignmentAdapter
     :RecyclerView.Adapter<AssignmentAdapter.AssignmentViewHolder>() {
-
+    var assignments : List<Assignment> = ArrayList()
 
     class AssignmentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val courseTitleTextView: TextView = itemView.findViewById(R.id.courseTitleTextView)
@@ -26,9 +30,26 @@ class AssignmentAdapter
     }
 
     override fun getItemCount(): Int {
+        return assignments.size
     }
 
     override fun onBindViewHolder(holder: AssignmentViewHolder, position: Int) {
+        var currentAssignment: Assignment = assignments[position]
+        holder.courseTitleTextView.text=currentAssignment.course
+        holder.descriptionTextView.text=currentAssignment.description
+
+        val formatterDate = SimpleDateFormat("MM-dd", Locale.getDefault())
+        val dateString = formatterDate.format(Date(currentAssignment.dueDateTime))
+        holder.dueDateTextView.text = dateString
+
+        val formatterTime = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val timeString = formatterTime.format(Date(currentAssignment.dueDateTime))
+        holder.dueTimeTextView.text = timeString
+    }
+
+    fun setAssignment(myAssignment: List<Assignment>){
+        this.assignments=myAssignment
+        notifyDataSetChanged()
     }
 
 }
