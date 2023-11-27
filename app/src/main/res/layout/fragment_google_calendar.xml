@@ -7,13 +7,11 @@
     android:orientation="vertical">
 
 
-    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+    <CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
-        android:layout_height="296dp"
-        app:mcv_selectionColor="#00F"
-        app:mcv_showOtherDates="all" />
-
+        android:layout_height="212dp"
+        android:layout_weight="5" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -30,7 +28,6 @@
         android:id="@+id/integrateButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button"
         tools:text="INTEGRATE TO CALENDAR" />
 
 </LinearLayout>

@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.CalendarView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import group6.learnlock.AssignmentApplication
 import group6.learnlock.databinding.FragmentGoogleCalendarBinding
 
@@ -21,7 +21,7 @@ class GoogleCalenderFragment : Fragment() {
     lateinit var recyclerView: RecyclerView
     lateinit var assignmentAdapter: AssignmentAdapter
     lateinit var assignmentViewModel: AssignmentViewModel
-    lateinit var calendarView:MaterialCalendarView
+    lateinit var calendarView: CalendarView
     lateinit var integrateButton : Button
 
     override fun onCreateView(
