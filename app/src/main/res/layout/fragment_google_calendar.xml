@@ -7,10 +7,10 @@
     android:orientation="vertical">
 
 
-    <com.applandeo.materialcalendarview.CalendarView
-        android:id="@+id/calendarView"
-        android:layout_width="match_parent"
-        android:layout_height="336dp" />
+<!--    <com.applandeo.materialcalendarview.CalendarView-->
+<!--        android:id="@+id/calendarView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
