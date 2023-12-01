@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName="assignment_table")
-class Assignment(val course:String,val description:String,val dueDateTime: Long) {
+class Assignment(val course:String, val description:String, val dueDateTime: Long, var color: Int) {
 
     @PrimaryKey(autoGenerate = true)
     var id=0

@@ -7,27 +7,22 @@
     android:orientation="vertical">
 
 
-    <CalendarView
+    <com.applandeo.materialcalendarview.CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
-        android:layout_height="212dp"
-        android:layout_weight="5" />
+        android:layout_height="336dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="189dp"
+        android:layout_height="wrap_content"
         android:layout_weight="5"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/card_design" />
 
     <Button
         android:id="@+id/integrateButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="INTEGRATE TO CALENDAR" />
+        android:text="INTEGRATE TO CALENDAR" />
 
 </LinearLayout>

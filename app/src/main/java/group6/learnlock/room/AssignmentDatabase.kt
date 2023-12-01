@@ -1,6 +1,7 @@
 package group6.learnlock.room
 
 import android.content.Context
+import android.graphics.Color
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -9,13 +10,16 @@ import group6.learnlock.model.Assignment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.util.Calendar
+import java.util.Random
 
-@Database(entities = [Assignment::class], version = 1 )
+@Database(entities = [Assignment::class], version = 4 )
 abstract class AssignmentDatabase : RoomDatabase(){
 
     abstract fun getAssignmentDao() : AssignmentDAO
 
-    companion object{
+    companion object
+    {
+
         @Volatile
         private var INSTANCE:AssignmentDatabase? = null
 
@@ -25,6 +29,7 @@ abstract class AssignmentDatabase : RoomDatabase(){
                     context.applicationContext,
                     AssignmentDatabase::class.java, "assignment_database"
                 ).addCallback(AssignmentDatabaseCallback(scope))
+                    .fallbackToDestructiveMigration()
                     .build()
 
                 INSTANCE = instance
@@ -34,26 +39,30 @@ abstract class AssignmentDatabase : RoomDatabase(){
         }
     }
 
-    private class AssignmentDatabaseCallback(private val scope : CoroutineScope):RoomDatabase.Callback(){
+    private class AssignmentDatabaseCallback(private val scope: CoroutineScope) : RoomDatabase.Callback() {
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
-            val calendar = Calendar.getInstance()
-            calendar.set(Calendar.YEAR, 2023) // Set the year
-            calendar.set(Calendar.MONTH, Calendar.NOVEMBER) // Set the month (November)
-            calendar.set(Calendar.DAY_OF_MONTH, 29) // Set the day (29)
 
+            val calendar = Calendar.getInstance()
+            calendar.set(Calendar.YEAR, 2023)
+            calendar.set(Calendar.MONTH, Calendar.NOVEMBER)
+            calendar.set(Calendar.DAY_OF_MONTH, 29)
             val timestamp = calendar.timeInMillis
 
-            INSTANCE?.let{database->
+            INSTANCE?.let { database ->
                 scope.launch {
                     val assignmentDao = database.getAssignmentDao()
-                    assignmentDao.insert(Assignment("Title 1","Description 1", timestamp))
-                    assignmentDao.insert(Assignment("Title 2","Description 2", timestamp))
-                    assignmentDao.insert(Assignment("Title 3","Description 3", timestamp))
+                    assignmentDao.insert(Assignment("Title 1", "Description 1", timestamp,getRandomColor()))
+                    assignmentDao.insert(Assignment("Title 2", "Description 2", timestamp,getRandomColor()))
+                    assignmentDao.insert(Assignment("Title 3", "Description 3", timestamp, getRandomColor()))
                 }
-
             }
         }
+        private fun getRandomColor(): Int {
+            val rnd = Random()
+            return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
+        }
     }
+
 
 }

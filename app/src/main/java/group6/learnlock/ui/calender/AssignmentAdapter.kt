@@ -37,6 +37,7 @@ class AssignmentAdapter
         var currentAssignment: Assignment = assignments[position]
         holder.courseTitleTextView.text=currentAssignment.course
         holder.descriptionTextView.text=currentAssignment.description
+        holder.cardView.setCardBackgroundColor(currentAssignment.color)
 
         val formatterDate = SimpleDateFormat("MM-dd", Locale.getDefault())
         val dateString = formatterDate.format(Date(currentAssignment.dueDateTime))
@@ -45,11 +46,13 @@ class AssignmentAdapter
         val formatterTime = SimpleDateFormat("HH:mm", Locale.getDefault())
         val timeString = formatterTime.format(Date(currentAssignment.dueDateTime))
         holder.dueTimeTextView.text = timeString
+
     }
 
     fun setAssignment(myAssignment: List<Assignment>){
         this.assignments=myAssignment
         notifyDataSetChanged()
+
     }
 
 }
