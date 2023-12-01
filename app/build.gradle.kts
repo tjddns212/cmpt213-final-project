@@ -59,6 +59,7 @@ dependencies {
     implementation("androidx.room:room-ktx:2.6.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("com.applandeo:material-calendar-view:1.7.0")
 
 
 
