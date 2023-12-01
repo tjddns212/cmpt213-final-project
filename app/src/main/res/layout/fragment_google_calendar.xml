@@ -7,10 +7,13 @@
     android:orientation="vertical">
 
 
-<!--    <com.applandeo.materialcalendarview.CalendarView-->
-<!--        android:id="@+id/calendarView"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent" />-->
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        app:mcv_selectionColor="#00F"
+        app:mcv_showOtherDates="all" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
