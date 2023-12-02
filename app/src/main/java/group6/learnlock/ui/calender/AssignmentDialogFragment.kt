@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import group6.learnlock.R
 import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -70,22 +71,27 @@ class AssignmentsDialogFragment : DialogFragment() {
     }
 
     private fun handleDoneAction() {
-        // Retrieve selected assignments and mark them as done
         val selectedAssignments = assignmentAdapter.getSelectedAssignments()
        dismiss()
     }
 
     private fun handleDeleteAction() {
-        // Retrieve selected assignments and delete them
         val selectedAssignments = assignmentAdapter.getSelectedAssignments()
         val deletedIds = selectedAssignments.map { it.id }
+
         selectedAssignments.forEach { assignment ->
-            // Call the repository's delete method for each selected assignment
             lifecycleScope.launch {
                 assignmentRepository.delete(assignment)
             }
         }
+
+        // Notify the listener about deleted assignments
         assignmentsDeletedListener?.onAssignmentsDeleted(deletedIds)
+
+        // Show a toast message
+        Toast.makeText(context, "Assignment deleted", Toast.LENGTH_SHORT).show()
+
+        // Close the fragment
         dismiss()
     }
 

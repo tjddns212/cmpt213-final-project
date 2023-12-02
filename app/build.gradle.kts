@@ -61,6 +61,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation ("com.applandeo:material-calendar-view:1.9.0-rc04")
+    implementation ("com.google.code.gson:gson:2.10.1")
+
 
 
 
