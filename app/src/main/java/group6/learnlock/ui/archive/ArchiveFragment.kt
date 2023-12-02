@@ -7,13 +7,16 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import group6.learnlock.R
 import group6.learnlock.databinding.FragmentArchiveBinding
+import group6.learnlock.model.Assignment
+import group6.learnlock.ui.calender.AssignmentAdapter
 
 class ArchiveFragment : Fragment() {
 
     private var _binding: FragmentArchiveBinding? = null
-
+    private  var compAssignment : Array<Assignment> = emptyArray<Assignment>()
 
     private val binding get() = _binding!!
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -22,12 +25,14 @@ class ArchiveFragment : Fragment() {
 
         _binding = FragmentArchiveBinding.inflate(inflater, container, false)
         val root : View = binding.root
+        val recyclerView : RecyclerView = binding.archiveRecycler
 
+        compAssignment = arrayOf(Assignment("CMPT 362", "Final Project", 1234), Assignment("CMPT 340", "Final Project Stroke", 5678))
+        val adapter = AssignmentAdapter()
+        adapter.setAssignment(compAssignment.asList())
 
-        val textView: TextView = binding.archiveTitle
-        galViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+        recyclerView.adapter = adapter
+
         return root
     }
 }
