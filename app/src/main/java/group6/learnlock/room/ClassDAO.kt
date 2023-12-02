@@ -4,12 +4,19 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import group6.learnlock.model.Class
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ClassDao {
     @Insert
     suspend fun insertClass(newClass: Class)
 
+    @Query("DELETE FROM classes WHERE className = :key")
+    suspend fun deleteClass(key: String)
+
+    @Query("DELETE FROM classes")
+    suspend fun deleteAllEntries()
+
     @Query("SELECT * FROM classes")
-    suspend fun getAllClasses(): List<Class>
+    fun getClasses(): Flow<List<Class>>
 }

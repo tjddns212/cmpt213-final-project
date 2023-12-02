@@ -8,7 +8,7 @@ import java.util.Date
 @Entity(tableName = "classes")
 data class Class (
     @PrimaryKey
-    val clasName: String,
+    val className: String,
     @ColumnInfo(name = "start_time_column")
     val startTime: String,
     @ColumnInfo(name = "end_time_column")
