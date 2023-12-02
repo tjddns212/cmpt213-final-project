@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import group6.learnlock.R
 import group6.learnlock.databinding.FragmentArchiveBinding
@@ -26,7 +27,7 @@ class ArchiveFragment : Fragment() {
         _binding = FragmentArchiveBinding.inflate(inflater, container, false)
         val root : View = binding.root
         val recyclerView : RecyclerView = binding.archiveRecycler
-
+        recyclerView.layoutManager=LinearLayoutManager(requireContext())
         compAssignment = arrayOf(Assignment("CMPT 362", "Final Project", 1234), Assignment("CMPT 340", "Final Project Stroke", 5678))
         val adapter = AssignmentAdapter()
         adapter.setAssignment(compAssignment.asList())
