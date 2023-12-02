@@ -1,5 +1,6 @@
 package group6.learnlock.ui.archive
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,7 +29,7 @@ class ArchiveFragment : Fragment() {
         val root : View = binding.root
         val recyclerView : RecyclerView = binding.archiveRecycler
         recyclerView.layoutManager=LinearLayoutManager(requireContext())
-        compAssignment = arrayOf(Assignment("CMPT 362", "Final Project", 1234), Assignment("CMPT 340", "Final Project Stroke", 5678))
+        compAssignment = arrayOf(Assignment("CMPT 362", "Final Project", 1234, Color.RED), Assignment("CMPT 340", "Final Project Stroke", 5678, Color.GREEN))
         val adapter = AssignmentAdapter()
         adapter.setAssignment(compAssignment.asList())
 
