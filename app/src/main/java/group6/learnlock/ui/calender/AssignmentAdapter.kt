@@ -15,6 +15,8 @@ import java.util.Locale
 class AssignmentAdapter
     :RecyclerView.Adapter<AssignmentAdapter.AssignmentViewHolder>() {
     var assignments : List<Assignment> = ArrayList()
+    private val selectedPositions = mutableSetOf<Int>()
+
 
     class AssignmentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val courseTitleTextView: TextView = itemView.findViewById(R.id.courseTitleTextView)
@@ -47,12 +49,25 @@ class AssignmentAdapter
         val timeString = formatterTime.format(Date(currentAssignment.dueDateTime))
         holder.dueTimeTextView.text = timeString
 
+        holder.itemView.alpha = if (selectedPositions.contains(position)) 0.5f else 1.0f
+        holder.itemView.setOnClickListener {
+            if (selectedPositions.contains(position)) {
+                selectedPositions.remove(position)
+                holder.itemView.alpha = 1.0f
+            } else {
+                selectedPositions.add(position)
+                holder.itemView.alpha = 0.5f
+            }
+        }
     }
 
+    fun getSelectedAssignments(): List<Assignment> {
+        return assignments.filterIndexed { index, _ -> selectedPositions.contains(index) }
+    }
     fun setAssignment(myAssignment: List<Assignment>){
         this.assignments=myAssignment
         notifyDataSetChanged()
-
     }
+
 
 }

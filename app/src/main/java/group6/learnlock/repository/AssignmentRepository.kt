@@ -33,5 +33,9 @@ class AssignmentRepository(private val assignmentDao:AssignmentDAO) {
         assignmentDao.deleteAllAssignments()
     }
 
+    fun getAssignmentsByIds(ids: List<Int>): Flow<List<Assignment>> {
+        return assignmentDao.getAssignmentsByIds(ids)
+    }
+
 
 }

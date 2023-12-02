@@ -45,8 +45,8 @@ abstract class AssignmentDatabase : RoomDatabase(){
 
             val calendar = Calendar.getInstance()
             calendar.set(Calendar.YEAR, 2023)
-            calendar.set(Calendar.MONTH, Calendar.NOVEMBER)
-            calendar.set(Calendar.DAY_OF_MONTH, 29)
+            calendar.set(Calendar.MONTH, Calendar.DECEMBER)
+            calendar.set(Calendar.DAY_OF_MONTH, 5)
             val timestamp = calendar.timeInMillis
 
             INSTANCE?.let { database ->
