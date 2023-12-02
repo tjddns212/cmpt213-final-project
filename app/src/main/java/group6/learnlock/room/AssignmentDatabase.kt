@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Random
 
-@Database(entities = [Assignment::class], version = 4 )
+@Database(entities = [Assignment::class], version = 5 )
 abstract class AssignmentDatabase : RoomDatabase(){
 
     abstract fun getAssignmentDao() : AssignmentDAO
@@ -52,13 +52,13 @@ abstract class AssignmentDatabase : RoomDatabase(){
             INSTANCE?.let { database ->
                 scope.launch {
                     val assignmentDao = database.getAssignmentDao()
-                    assignmentDao.insert(Assignment("Title 3", "Description 1", timestamp,getRandomColor()))
-                    assignmentDao.insert(Assignment("Title 4", "Description 2", timestamp,getRandomColor()))
-                    assignmentDao.insert(Assignment("Title 1", "Description 3", timestamp, getRandomColor()))
-                    assignmentDao.insert(Assignment("Title 2", "Description 3", timestamp, getRandomColor()))
-                    assignmentDao.insert(Assignment("Title 3", "Description 3", timestamp, getRandomColor()))
-                    assignmentDao.insert(Assignment("Title 4", "Description 3", timestamp, getRandomColor()))
-                    assignmentDao.insert(Assignment("Title 5", "Description 3", timestamp, getRandomColor()))
+                    assignmentDao.insert(Assignment("Title 3", "Description 1", timestamp,getRandomColor(),false))
+                    assignmentDao.insert(Assignment("Title 4", "Description 2", timestamp,getRandomColor(),false))
+                    assignmentDao.insert(Assignment("Title 1", "Description 3", timestamp, getRandomColor(),false))
+                    assignmentDao.insert(Assignment("Title 2", "Description 3", timestamp, getRandomColor(),false))
+                    assignmentDao.insert(Assignment("Title 3", "Description 3", timestamp, getRandomColor(),false))
+                    assignmentDao.insert(Assignment("Title 4", "Description 3", timestamp, getRandomColor(),false))
+                    assignmentDao.insert(Assignment("Title 5", "Description 3", timestamp, getRandomColor(),false))
 
                 }
             }
