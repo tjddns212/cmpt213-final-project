@@ -22,7 +22,7 @@ import group6.learnlock.AssignmentApplication
 import group6.learnlock.databinding.FragmentGoogleCalendarBinding
 import group6.learnlock.model.Assignment
 import java.util.Calendar
-class GoogleCalenderFragment : Fragment() {
+class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignmentsDeletedListener {
     private val calendarAssignmentIds: MutableMap<Long, MutableSet<Int>> = mutableMapOf()
     private var _binding: FragmentGoogleCalendarBinding? = null
     private val binding get() = _binding!!
@@ -133,7 +133,54 @@ class GoogleCalenderFragment : Fragment() {
     }
     private fun showAssignmentsDialog(assignments: List<Assignment>) {
         val dialog = AssignmentsDialogFragment.newInstance(assignments)
+        dialog.assignmentsDeletedListener = this
         dialog.show(childFragmentManager, "AssignmentsDialog")
+    }
+    override fun onAssignmentsDeleted(deletedAssignmentIds: List<Int>) {
+        // Remove the deleted assignments from calendarAssignmentIds
+        deletedAssignmentIds.forEach { id ->
+            calendarAssignmentIds.forEach { (_, ids) ->
+                ids.remove(id)
+            }
+        }
+
+        // Remove any dates that no longer have assignments
+        calendarAssignmentIds.entries.removeIf { (_, ids) -> ids.isEmpty() }
+        assignmentAdapter.clearSelection()
+
+        // Fetch the remaining assignments to update the calendar
+        val remainingAssignments = assignmentViewModel.myAllAssignments.value?.filter {
+            calendarAssignmentIds.values.flatten().contains(it.id)
+        } ?: listOf()
+
+        // Refresh the calendar with the remaining assignments
+        refreshCalendarWithAssignments(remainingAssignments)
+
+    }
+
+    private fun refreshCalendarWithAssignments(assignments: List<Assignment>) {
+        // Clear existing assignment IDs in the map
+        calendarAssignmentIds.clear()
+
+        // Re-populate the map with the remaining assignments
+        addSelectedAssignmentsToCalendar(assignments)
+
+        // Generate and set the events in the calendar based on the updated map
+        val events = calendarAssignmentIds.mapNotNull { (calendarTime, assignmentIds) ->
+            val assignmentsOnDay = assignmentIds.mapNotNull { id ->
+                assignments.firstOrNull { it.id == id }
+            }
+
+            if (assignmentsOnDay.isNotEmpty()) {
+                val drawable = createCompositeDrawable(assignmentsOnDay.mapNotNull { it.color })
+                val calendar = Calendar.getInstance().apply { timeInMillis = calendarTime }
+                EventDay(calendar, drawable)
+            } else {
+                null
+            }
+        }
+
+        calendarView.setEvents(events)
     }
 
     override fun onDestroyView() {

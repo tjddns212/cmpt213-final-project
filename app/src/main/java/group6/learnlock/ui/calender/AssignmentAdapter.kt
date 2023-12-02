@@ -68,6 +68,10 @@ class AssignmentAdapter
         this.assignments=myAssignment
         notifyDataSetChanged()
     }
+    fun clearSelection() {
+        selectedPositions.clear()
+        notifyDataSetChanged() // Refresh the UI to reflect the change
+    }
 
 
 }
