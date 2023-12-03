@@ -9,9 +9,9 @@ import group6.learnlock.model.Assignment
 import group6.learnlock.repository.AssignmentRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 class AssignmentViewModel(private val repository: AssignmentRepository) : ViewModel() {
-
     val myAllAssignments : LiveData<List<Assignment>> =repository.myAllAssignments.asLiveData()
 
     fun insert(assignment: Assignment) = viewModelScope.launch(Dispatchers.IO){
@@ -26,6 +26,9 @@ class AssignmentViewModel(private val repository: AssignmentRepository) : ViewMo
     fun deleteAllAssignments() = viewModelScope.launch(Dispatchers.IO){
         repository.deleteAllAssignments()
     }
+    fun getAssignmentsByIds(ids: Set<Int>): LiveData<List<Assignment>> {
+        return repository.getAssignmentsByIds(ids.toList()).asLiveData()
+    }
 
 }
 class CalendarViewModelFactory(private var repository: AssignmentRepository):ViewModelProvider.Factory{
@@ -36,4 +39,5 @@ class CalendarViewModelFactory(private var repository: AssignmentRepository):Vie
             throw IllegalArgumentException("Unkown view model")
         }
     }
+
 }

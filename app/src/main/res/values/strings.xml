@@ -17,5 +17,12 @@
     <string name="timer_default">60:00</string>
     <string name="session_end_message">Focused session has ended</string>
     <string name="ok">OK</string>
+    <string name="add_flashcard">Add Flashcard</string>
+    <string name="edit_flashcard">Edit Flashcard</string>
+    <string name="flashcard_title_hint">Title</string>
+    <string name="flashcard_description_hint">Description</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+
 
 </resources>

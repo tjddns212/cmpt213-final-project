@@ -11,5 +11,6 @@
     <color name="colorRed">#F44336</color>
     <color name="colorPurple">#9C27B0</color>
     <color name="colorPink">#E91E63</color>
+    <color name="colorAccent">#FF4081</color>
 
 </resources>
