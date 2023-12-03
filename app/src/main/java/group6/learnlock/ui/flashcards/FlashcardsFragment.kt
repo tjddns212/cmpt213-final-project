@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import group6.learnlock.R
@@ -12,13 +13,17 @@ import group6.learnlock.databinding.DialogAddEditFlashcardBinding
 import group6.learnlock.databinding.FragmentFlashcardsBinding
 import java.text.SimpleDateFormat
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
 import java.util.*
 
 class FlashcardsFragment : Fragment() {
 
     private var _binding: FragmentFlashcardsBinding? = null
     private val binding get() = _binding!!
-    private val flashcardsData = mutableListOf<Flashcard>()
+    private val viewModel: FlashcardsViewModel by viewModels()
+    private lateinit var adapter: FlashcardsAdapter // Declare adapter here
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentFlashcardsBinding.inflate(inflater, container, false)
@@ -27,9 +32,12 @@ class FlashcardsFragment : Fragment() {
         val currentDate = SimpleDateFormat("EEEE, MMM d", Locale.getDefault()).format(Date())
         binding.textDate.text = currentDate
 
-        val adapter = FlashcardsAdapter(flashcardsData) { flashcard, position ->
+        // Initialize adapter here
+        adapter = FlashcardsAdapter(viewModel.flashcardsData.value ?: mutableListOf(), { flashcard, position ->
             showAddEditFlashcardDialog(flashcard, position)
-        }
+        }, { _, position ->
+            confirmAndDeleteFlashcard(position)
+        })
 
         binding.flashcardsRecyclerView.layoutManager = GridLayoutManager(context, 2)
         binding.flashcardsRecyclerView.adapter = adapter
@@ -38,7 +46,22 @@ class FlashcardsFragment : Fragment() {
             showAddEditFlashcardDialog(null, -1)
         }
 
+        setupSearchView()
+
         return root
+    }
+
+    private fun setupSearchView() {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adapter.filterFlashcards(newText ?: "")
+                return false
+            }
+        })
     }
 
     private fun showAddEditFlashcardDialog(flashcard: Flashcard?, position: Int) {
@@ -56,16 +79,13 @@ class FlashcardsFragment : Fragment() {
                 val selectedColorName = dialogBinding.spinnerFlashcardColor.selectedItem.toString()
                 val colorResId = resources.getIdentifier(selectedColorName, "color", requireContext().packageName)
 
+                val newFlashcard = Flashcard(title, description, colorResId)
                 if (flashcard == null) {
-                    val newFlashcard = Flashcard(title, description, colorResId)
-                    flashcardsData.add(newFlashcard)
-                    binding.flashcardsRecyclerView.adapter?.notifyItemInserted(flashcardsData.size - 1)
+                    viewModel.flashcardsData.value?.add(newFlashcard)
                 } else {
-                    flashcard.title = title
-                    flashcard.description = description
-                    flashcard.backgroundColor = colorResId
-                    binding.flashcardsRecyclerView.adapter?.notifyItemChanged(position)
+                    viewModel.flashcardsData.value?.set(position, newFlashcard)
                 }
+                adapter.notifyDataSetChanged()
             }
             .setNegativeButton(R.string.cancel, null)
             .show()
@@ -91,6 +111,17 @@ class FlashcardsFragment : Fragment() {
             val spinnerPosition = colorAdapter.getPosition(colorName)
             dialogBinding.spinnerFlashcardColor.setSelection(spinnerPosition)
         }
+    }
+
+    private fun confirmAndDeleteFlashcard(position: Int) {
+        AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.confirm_delete_title))
+            .setMessage(getString(R.string.confirm_delete_message))
+            .setPositiveButton(getString(R.string.delete)) { _, _ ->
+                (binding.flashcardsRecyclerView.adapter as FlashcardsAdapter).removeFlashcard(position)
+            }
+            .setNegativeButton(getString(R.string.cancel), null)
+            .show()
     }
 
     override fun onDestroyView() {
