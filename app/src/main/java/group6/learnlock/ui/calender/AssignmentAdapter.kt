@@ -1,6 +1,9 @@
 package group6.learnlock.ui.calender
 
+<<<<<<< HEAD
 import android.util.Log
+=======
+>>>>>>> main
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,7 +38,7 @@ class AssignmentAdapter
     }
 
     override fun onBindViewHolder(holder: AssignmentViewHolder, position: Int) {
-        Log.d("test", "in OnBind")
+
         var currentAssignment: Assignment = assignments[position]
         holder.courseTitleTextView.text=currentAssignment.course
         holder.descriptionTextView.text=currentAssignment.description

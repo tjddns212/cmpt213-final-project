@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_calender"
-        android:name="group6.learnlock.ui.calender.CalenderFragment"
+        android:name="group6.learnlock.ui.calender.GoogleCalenderFragment"
         android:label="@string/menu_calender"
         tools:layout="@layout/fragment_calender" />
 
