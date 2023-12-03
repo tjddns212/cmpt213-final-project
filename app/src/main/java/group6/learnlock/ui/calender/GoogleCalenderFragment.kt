@@ -25,7 +25,7 @@ import group6.learnlock.AssignmentApplication
 import group6.learnlock.databinding.FragmentGoogleCalendarBinding
 import group6.learnlock.model.Assignment
 import java.util.Calendar
-class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignmentsDeletedListener {
+class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignmentsDeletedListener{
     private var calendarAssignmentIds: MutableMap<Long, MutableSet<Int>> = mutableMapOf()
     private var _binding: FragmentGoogleCalendarBinding? = null
     private val binding get() = _binding!!
@@ -57,6 +57,23 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
         assignmentViewModel.myAllAssignments.observe(viewLifecycleOwner, Observer { assignments ->
             assignmentAdapter.setAssignment(assignments)
         })
+        assignmentViewModel.myAllAssignments.observe(viewLifecycleOwner, Observer { assignments ->
+            // Update RecyclerView with active assignments
+            val activeAssignments = assignments.filter { !it.isCompleted }
+            assignmentAdapter.setAssignment(activeAssignments)
+
+            // Filter active assignments that are already marked on the calendar
+            val markedActiveAssignments = activeAssignments.filter { assignment ->
+                calendarAssignmentIds.any { (_, assignmentIds) -> assignment.id in assignmentIds }
+            }
+
+            // Refresh the calendar with these assignments
+            refreshCalendarWithAssignments(markedActiveAssignments)
+            assignmentAdapter.clearSelection()
+
+        })
+
+
         integrateButton.setOnClickListener {
             val selectedAssignments = assignmentAdapter.getSelectedAssignments()
             addSelectedAssignmentsToCalendar(selectedAssignments)
@@ -207,6 +224,8 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
         addSelectedAssignmentsToCalendar(newAssignments)
         saveAssignmentsToSharedPreferences()
     }
+
+
 
 
     override fun onDestroyView() {

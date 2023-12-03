@@ -1,6 +1,7 @@
 package group6.learnlock.ui.calender
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,7 @@ class AssignmentsDialogFragment : DialogFragment() {
     private lateinit var doneButton: Button
     private lateinit var deleteButton: Button
     private lateinit var cancelButton: Button
+
     interface OnAssignmentsDeletedListener {
         fun onAssignmentsDeleted(deletedAssignmentIds: List<Int>)
     }
@@ -72,7 +74,15 @@ class AssignmentsDialogFragment : DialogFragment() {
 
     private fun handleDoneAction() {
         val selectedAssignments = assignmentAdapter.getSelectedAssignments()
-       dismiss()
+        selectedAssignments.forEach { assignment ->
+            lifecycleScope.launch {
+                // Mark the assignment as completed in the repository
+                assignmentRepository.markAssignmentAsCompleted(assignment.id)
+            }
+        }
+        // Notify listener
+        dismiss()
+        Log.d("DebugTag", "Showing dialog fragment");
     }
 
     private fun handleDeleteAction() {
@@ -86,13 +96,13 @@ class AssignmentsDialogFragment : DialogFragment() {
         }
 
         // Notify the listener about deleted assignments
+        dismiss()
         assignmentsDeletedListener?.onAssignmentsDeleted(deletedIds)
-
         // Show a toast message
         Toast.makeText(context, "Assignment deleted", Toast.LENGTH_SHORT).show()
 
         // Close the fragment
-        dismiss()
+
     }
 
 }

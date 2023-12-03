@@ -36,6 +36,13 @@ class AssignmentRepository(private val assignmentDao:AssignmentDAO) {
     fun getAssignmentsByIds(ids: List<Int>): Flow<List<Assignment>> {
         return assignmentDao.getAssignmentsByIds(ids)
     }
+    @WorkerThread
+    suspend fun markAssignmentAsCompleted(assignmentId: Int) {
+        assignmentDao.markAsCompleted(assignmentId)
+    }
+
+
+
 
 
 }
