@@ -28,8 +28,8 @@ class ClassViewModel(private val repository: ClassRepository) : ViewModel() {
     fun deleteAll() = viewModelScope.launch(Dispatchers.IO){
         repository.deleteAll()
     }
-    fun getClassesForDate(selectedDate: Long): LiveData<List<Class>> {
-        return repository.getClassesForDate(selectedDate).asLiveData()
+    fun getClassesForDate(selectedDate: Long, selectedDayOfWeek: Int): LiveData<List<Class>> {
+        return repository.getClassesForDate(selectedDate, selectedDayOfWeek).asLiveData()
     }
 }
 

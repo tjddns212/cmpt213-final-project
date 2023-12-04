@@ -121,29 +121,39 @@ class AddClassActivity : AppCompatActivity() {
     private fun createClass() {
         val className = classNameEditText.text.toString()
         val daysOfWeek = getSelectedDaysOfWeek()
+        var mon = false
+        var tue = false
+        var wed = false
+        var thu = false
+        var fri = false
 
         if (className.isNotEmpty() && daysOfWeek.isNotEmpty()) {
             val daySchedules = mutableListOf<DaySchedule>()
-
             for (day in daysOfWeek) {
                 val startTime  = timePickers[day]?.first ?: ""
                 val endTime = timePickers[day]?.second ?: ""
                 var dayString:String = ""
                 if (day == "Mon") {
                     dayString = "MONDAY"
+                    mon = true
                 }
                 else if (day == "Tue") {
                     dayString = "TUESDAY"
+                    tue = true
                 }
                 else if (day == "Wed") {
                     dayString = "WEDNESDAY"
+                    wed = true
                 }
                 else if (day == "Thu") {
                     dayString = "THURSDAY"
+                    thu = true
                 }
                 else if (day == "Fri") {
                     dayString = "FRIDAY"
+                    fri = true
                 }
+
 
                 val selectedStartDate = getDateFromDatePicker(startDatePicker)
                 val selectedEndDate = getDateFromDatePicker(endDatePicker)
@@ -160,9 +170,10 @@ class AddClassActivity : AppCompatActivity() {
             val selectedStartDate = getDateFromDatePicker(startDatePicker).time
             val selectedEndDate = getDateFromDatePicker(endDatePicker).time
 
-            val classInstance = Class(className, daySchedules, emptyList(), selectedStartDate, selectedEndDate)
 
+            val classInstance = Class(className, daySchedules, emptyList(), selectedStartDate, selectedEndDate, mon, tue, wed, thu, fri)
             saveClassToDatabase(classInstance)
+
         } else {
 
         }
