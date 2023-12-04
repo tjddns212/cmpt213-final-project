@@ -10,10 +10,14 @@
     <com.applandeo.materialcalendarview.CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
-        android:layout_height="317dp"
-       />
+        android:layout_height="295dp" />
 
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/classScheduleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        tools:listitem="@layout/card_design" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -21,6 +25,13 @@
         android:layout_height="wrap_content"
         android:layout_weight="5"
         tools:listitem="@layout/card_design" />
+
+    <Button
+        android:id="@+id/addClassButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#002E86"
+        android:text="ADD CLASS" />
 
     <Button
         android:id="@+id/integrateButton"

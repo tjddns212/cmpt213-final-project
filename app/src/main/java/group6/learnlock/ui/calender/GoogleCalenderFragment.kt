@@ -1,6 +1,7 @@
 package group6.learnlock.ui.calender
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.ShapeDrawable
@@ -24,7 +25,13 @@ import com.applandeo.materialcalendarview.listeners.OnDayClickListener
 import group6.learnlock.AssignmentApplication
 import group6.learnlock.databinding.FragmentGoogleCalendarBinding
 import group6.learnlock.model.Assignment
+import group6.learnlock.repository.ClassRepository
+import group6.learnlock.room.ClassDao
+import group6.learnlock.room.ClassDatabase
+import java.time.LocalDate
 import java.util.Calendar
+import java.util.Date
+//wonky merge
 class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignmentsDeletedListener{
     private var calendarAssignmentIds: MutableMap<Long, MutableSet<Int>> = mutableMapOf()
     private var _binding: FragmentGoogleCalendarBinding? = null
@@ -32,8 +39,16 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
     lateinit var recyclerView: RecyclerView
     lateinit var assignmentAdapter: AssignmentAdapter
     lateinit var assignmentViewModel: AssignmentViewModel
+    lateinit var classScheduleView: RecyclerView
+    lateinit var classAdapter: ClassAdapter
+    lateinit var classRepository: ClassRepository
+    lateinit var classDatabase: ClassDatabase
+    lateinit var classDao: ClassDao
+    lateinit var classViewModelFactory: ClassViewModelFactory
+    lateinit var classViewModel: ClassViewModel
     lateinit var calendarView: CalendarView
     lateinit var integrateButton : Button
+    lateinit var addButton: Button
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,16 +58,27 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
         _binding = FragmentGoogleCalendarBinding.inflate(inflater, container, false)
         val root: View = binding.root
         integrateButton=binding.integrateButton
+        addButton = binding.addClassButton
         calendarView = binding.calendarView
+        classScheduleView = binding.classScheduleView
+        classScheduleView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         assignmentAdapter = AssignmentAdapter()
         recyclerView.adapter = assignmentAdapter
 
 
-
         val viewModelFactory = CalendarViewModelFactory((requireActivity().application as AssignmentApplication).repository)
         assignmentViewModel = ViewModelProvider(this, viewModelFactory).get(AssignmentViewModel::class.java)
+
+        classAdapter = ClassAdapter()
+        classScheduleView.adapter = classAdapter
+
+        classDatabase = ClassDatabase.getInstance(requireActivity())
+        classDao = classDatabase.classDao
+        classRepository = ClassRepository(classDao)
+        classViewModelFactory = ClassViewModelFactory(classRepository)
+        classViewModel = ViewModelProvider(this, classViewModelFactory).get(ClassViewModel::class.java)
 
         assignmentViewModel.myAllAssignments.observe(viewLifecycleOwner, Observer { assignments ->
             assignmentAdapter.setAssignment(assignments)
@@ -89,8 +115,29 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
                         showAssignmentsDialog(assignments)
                     }
                 })
+
+                val localDate = EventDay(Calendar.getInstance())
+                val year = localDate.calendar[Calendar.YEAR]
+                val month = localDate.calendar[Calendar.MONTH] + 1
+                val dayOfMonth = localDate.calendar[Calendar.DAY_OF_MONTH]
+                val selectedDate = Calendar.getInstance().apply {
+                    set(year, month, dayOfMonth)
+                    set(Calendar.HOUR_OF_DAY, 0)
+                    set(Calendar.MINUTE, 0)
+                    set(Calendar.SECOND, 0)
+                    set(Calendar.MILLISECOND, 0)
+                }.time
+                classViewModel.getClassesForDate(selectedDate).observe(viewLifecycleOwner, Observer {classes ->
+                    classAdapter.setClasses(classes)
+                })
             }
         })
+
+        addButton.setOnClickListener{
+            val intent = Intent(requireContext(), AddClassActivity::class.java)
+            startActivity(intent)
+        }
+
         loadAssignmentsFromSharedPreferences()
         updateCalendarEvents()
 
@@ -153,10 +200,16 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
         return layerDrawable
     }
     private fun showAssignmentsDialog(assignments: List<Assignment>) {
-        val dialog = AssignmentsDialogFragment.newInstance(assignments)
-        dialog.assignmentsDeletedListener = this
-        dialog.show(childFragmentManager, "AssignmentsDialog")
+        val fragmentManager = childFragmentManager
+        val existingFragment = fragmentManager.findFragmentByTag("AssignmentsDialog")
+
+        if (existingFragment == null) {
+            val dialog = AssignmentsDialogFragment.newInstance(assignments)
+            dialog.assignmentsDeletedListener = this
+            dialog.show(fragmentManager, "AssignmentsDialog")
+        }
     }
+
     override fun onAssignmentsDeleted(deletedAssignmentIds: List<Int>) {
         // Remove the deleted assignments from calendarAssignmentIds
         deletedAssignmentIds.forEach { id ->
@@ -225,8 +278,10 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
         saveAssignmentsToSharedPreferences()
     }
 
-
-
+    private fun openWeeklyView() {
+        val intent = Intent(requireContext(), WeeklyViewActivity::class.java)
+        startActivity(intent)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
