@@ -30,7 +30,7 @@ import group6.learnlock.room.ClassDao
 import group6.learnlock.room.ClassDatabase
 import java.util.Calendar
 import java.util.Date
-
+//wonky merge
 class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignmentsDeletedListener{
     private var calendarAssignmentIds: MutableMap<Long, MutableSet<Int>> = mutableMapOf()
     private var _binding: FragmentGoogleCalendarBinding? = null
