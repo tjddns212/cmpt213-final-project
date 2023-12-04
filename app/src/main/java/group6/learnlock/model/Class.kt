@@ -3,22 +3,95 @@ package group6.learnlock.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.ColumnInfo
+import java.time.DayOfWeek
 import java.util.Date
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.lang.reflect.Type
+import java.text.SimpleDateFormat
 
-@Entity(tableName = "classes")
+@Entity(tableName = "class_table")
+@TypeConverters(Converters::class)
 data class Class (
     @PrimaryKey
     val className: String,
-    @ColumnInfo(name = "start_time_column")
-    val startTime: String,
-    @ColumnInfo(name = "end_time_column")
-    val endTime: String,
-    @ColumnInfo(name = "days_of_week_column")
-    val daysOfWeek: List<String>,
-    @ColumnInfo(name = "start_date_column")
-    val startDate: Date,
-    @ColumnInfo(name = "end_date_column")
-    val endDate: Date,
+    @ColumnInfo(name = "schedules_column")
+    val schedules: List<DaySchedule>?,
     @ColumnInfo(name = "assignment_column")
-    val assignments: List<Assignment>
+    val assignments: List<Assignment>,
+    @ColumnInfo(name = "start_column")
+    val startDate: Date,
+    @ColumnInfo(name = "end_column")
+    val endDate: Date
 )
+
+data class DaySchedule(
+    val dayOfWeek: DayOfWeek,
+    val startTime: String,
+    val endTime:String,
+    val startDate: Date,
+    val endDate: Date
+)
+
+class Converters {
+    private val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    @TypeConverter
+    fun fromString(value: String?): List<DaySchedule>? {
+        if (value == null) {
+            return null
+        }
+        val listType: Type = object : TypeToken<List<DaySchedule>>() {}.type
+        return Gson().fromJson(value, listType)
+    }
+
+    @TypeConverter
+    fun fromList(list: List<DaySchedule>?): String? {
+        if (list == null) {
+            return null
+        }
+        val gson = Gson()
+        return gson.toJson(list)
+    }
+
+    @TypeConverter
+    fun fromAssignmentString(value: String?): List<Assignment>? {
+        if (value == null) {
+            return null
+        }
+        val gson = Gson()
+        val type = object : TypeToken<List<Assignment>>() {}.type
+        return gson.fromJson(value, type)
+    }
+
+    @TypeConverter
+    fun toAssignmentString(list: List<Assignment>?): String? {
+        if (list == null) {
+            return null
+        }
+        val gson = Gson()
+        val type = object : TypeToken<List<Assignment>>() {}.type
+        return gson.toJson(list, type)
+    }
+
+    @TypeConverter
+    fun fromDate(date: Date?): String? {
+        return date?.let { dateFormat.format(it) }
+    }
+
+    @TypeConverter
+    fun toDate(dateString: String?): Date? {
+        return dateString?.let { dateFormat.parse(it) }
+    }
+
+    @TypeConverter
+    fun dateToTimestamp(date: Date?): Long? {
+        return date?.time
+    }
+
+    @TypeConverter
+    fun timestampToDate(timestamp: Long?): Date? {
+        return timestamp?.let { Date(it) }
+    }
+}

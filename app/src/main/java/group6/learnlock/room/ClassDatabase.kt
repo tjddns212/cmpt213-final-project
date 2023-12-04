@@ -1,9 +1,20 @@
 package group6.learnlock.room
 
 import android.content.Context
+import android.graphics.Color
+import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
+import group6.learnlock.model.Assignment
 
+import group6.learnlock.model.Class
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import java.util.Calendar
+import java.util.Random
+
+@Database(entities = [Class::class], version = 1)
 abstract class ClassDatabase: RoomDatabase() {
     abstract val classDao: ClassDao
 
@@ -15,7 +26,8 @@ abstract class ClassDatabase: RoomDatabase() {
             synchronized(this) {
              var instance = INSTANCE
              if (instance == null) {
-                 instance = Room.databaseBuilder(context.applicationContext, ClassDatabase::class.java, "classes").build()
+                 instance = Room.databaseBuilder(context.applicationContext,
+                     ClassDatabase::class.java, "class_table").build()
                  INSTANCE = instance
              }
                 return instance

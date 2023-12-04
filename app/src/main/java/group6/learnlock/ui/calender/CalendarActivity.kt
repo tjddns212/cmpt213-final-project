@@ -1,17 +1,17 @@
 package group6.learnlock.ui.calender
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.widget.ListView
 import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import group6.learnlock.databinding.FragmentCalenderBinding
-
-class CalenderFragment : Fragment() {
+import group6.learnlock.R
+import group6.learnlock.ui.calender.CalendarUtils.Companion.monthYear
+import group6.learnlock.ui.calender.CalendarUtils.Companion.thisWeek
+import java.time.LocalDate
+/*
+class CalendarActivity : Fragment() {
 
     private var _binding: FragmentCalenderBinding? = null
     private val binding get() = _binding!!
@@ -41,4 +41,4 @@ class CalenderFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-}
+}*/
