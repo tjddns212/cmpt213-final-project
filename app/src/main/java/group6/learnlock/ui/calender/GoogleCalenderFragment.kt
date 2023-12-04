@@ -35,8 +35,6 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
     lateinit var assignmentViewModel: AssignmentViewModel
     lateinit var calendarView: CalendarView
     lateinit var integrateButton : Button
-    lateinit var addButton: Button
-    lateinit var classScheduleView: RecyclerView
 
 
     override fun onCreateView(
@@ -52,7 +50,6 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         assignmentAdapter = AssignmentAdapter()
         recyclerView.adapter = assignmentAdapter
-        classScheduleView.layoutManager = LinearLayoutManager(requireContext())
 
 
         val viewModelFactory = CalendarViewModelFactory((requireActivity().application as AssignmentApplication).repository)
