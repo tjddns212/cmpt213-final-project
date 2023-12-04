@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/editTextCourse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Course"/>
+
+    <EditText
+        android:id="@+id/editTextDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Description"/>
+    <Button
+        android:id="@+id/buttonSelectDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Due Date"/>
+
+    <Button
+        android:id="@+id/buttonSelectTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Due Time"/>
+
+
+    <!-- Add more input fields as required -->
+
+</LinearLayout>

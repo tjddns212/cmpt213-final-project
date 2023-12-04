@@ -32,7 +32,8 @@ import java.time.LocalDate
 import java.util.Calendar
 import java.util.Date
 //wonky merge
-class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignmentsDeletedListener{
+class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignmentsDeletedListener,
+    AddAssignmentDialogFragment.AddAssignmentListener {
     private var calendarAssignmentIds: MutableMap<Long, MutableSet<Int>> = mutableMapOf()
     private var _binding: FragmentGoogleCalendarBinding? = null
     private val binding get() = _binding!!
@@ -49,6 +50,7 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
     lateinit var calendarView: CalendarView
     lateinit var integrateButton : Button
     lateinit var addButton: Button
+    lateinit var addAssignmentButton: Button
 
 
     override fun onCreateView(
@@ -67,6 +69,7 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         assignmentAdapter = AssignmentAdapter()
         recyclerView.adapter = assignmentAdapter
+        addAssignmentButton=binding.addAssignmentButton
 
 
         val viewModelFactory = CalendarViewModelFactory((requireActivity().application as AssignmentApplication).repository)
@@ -138,6 +141,17 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
                 })
             }
         })
+        addAssignmentButton.setOnClickListener {
+            val dialog = AddAssignmentDialogFragment()
+            dialog.setAddAssignmentListener(object : AddAssignmentDialogFragment.AddAssignmentListener {
+                override fun onAssignmentAdded(assignment: Assignment) {
+                    // Here, you can handle the saving of the assignment to the database
+                    assignmentViewModel.insert(assignment)
+                }
+            })
+            dialog.show(parentFragmentManager, "AddAssignmentDialog")
+        }
+
 
         addButton.setOnClickListener{
             val intent = Intent(requireContext(), AddClassActivity::class.java)
@@ -148,6 +162,10 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
         updateCalendarEvents()
 
         return root
+    }
+    override fun onAssignmentAdded(assignment: Assignment) {
+        // Here you handle the saving of the assignment
+        assignmentViewModel.insert(assignment)
     }
     private fun addSelectedAssignmentsToCalendar(newAssignments: List<Assignment>) {
         newAssignments.forEach { assignment ->
