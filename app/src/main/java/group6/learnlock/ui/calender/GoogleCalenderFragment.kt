@@ -18,6 +18,7 @@ import group6.learnlock.repository.ClassRepository
 import group6.learnlock.room.ClassDao
 import group6.learnlock.room.ClassDatabase
 import java.util.Calendar
+import java.util.Date
 
 class GoogleCalenderFragment : Fragment() {
 
@@ -70,11 +71,6 @@ class GoogleCalenderFragment : Fragment() {
             assignmentAdapter.setAssignment(assignments)
         })
 
-
-        classViewModel.allClasses.observe(viewLifecycleOwner, Observer { classes ->
-            classAdapter.setClasses(classes)
-            classAdapter.notifyDataSetChanged()
-        })
 
         calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             if (year == 0 && month == 0 && dayOfMonth == 0) {
