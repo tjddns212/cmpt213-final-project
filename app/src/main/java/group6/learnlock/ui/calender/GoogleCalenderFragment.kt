@@ -1,6 +1,7 @@
 package group6.learnlock.ui.calender
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.ShapeDrawable
@@ -34,6 +35,9 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
     lateinit var assignmentViewModel: AssignmentViewModel
     lateinit var calendarView: CalendarView
     lateinit var integrateButton : Button
+    lateinit var addButton: Button
+    lateinit var classScheduleView: RecyclerView
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,7 +52,7 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         assignmentAdapter = AssignmentAdapter()
         recyclerView.adapter = assignmentAdapter
-
+        classScheduleView.layoutManager = LinearLayoutManager(requireContext())
 
 
         val viewModelFactory = CalendarViewModelFactory((requireActivity().application as AssignmentApplication).repository)
@@ -91,6 +95,7 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
                 })
             }
         })
+
         loadAssignmentsFromSharedPreferences()
         updateCalendarEvents()
 
@@ -230,9 +235,6 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
         addSelectedAssignmentsToCalendar(newAssignments)
         saveAssignmentsToSharedPreferences()
     }
-
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()
