@@ -136,7 +136,7 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
                     set(Calendar.MILLISECOND, 0)
                 }.time
                 val inputDate = Date(eventDay.calendar.timeInMillis).time
-                val dayOfWeek: Int = eventDay.calendar.get(Calendar.DAY_OF_WEEK) + 1
+                val dayOfWeek: Int = eventDay.calendar.get(Calendar.DAY_OF_WEEK)
                 classViewModel.getClassesForDate(inputDate, dayOfWeek).observe(viewLifecycleOwner, Observer {classes ->
                     classAdapter.setClasses(classes)
                 })
