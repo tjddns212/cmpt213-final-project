@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView
 import group6.learnlock.AssignmentApplication
 import group6.learnlock.databinding.FragmentGoogleCalendarBinding
 import group6.learnlock.repository.ClassRepository
+import group6.learnlock.room.ClassDao
+import group6.learnlock.room.ClassDatabase
 import java.util.Calendar
 
 class GoogleCalenderFragment : Fragment() {
@@ -26,8 +28,12 @@ class GoogleCalenderFragment : Fragment() {
     lateinit var assignmentViewModel: AssignmentViewModel
     lateinit var classScheduleView: RecyclerView
     lateinit var classAdapter: ClassAdapter
-    lateinit var calendarView: CalendarView
+    lateinit var classRepository: ClassRepository
+    lateinit var classDatabase: ClassDatabase
+    lateinit var classDao: ClassDao
+    lateinit var classViewModelFactory: ClassViewModelFactory
     lateinit var classViewModel: ClassViewModel
+    lateinit var calendarView: CalendarView
     lateinit var integrateButton : Button
     lateinit var addButton: Button
 
@@ -51,11 +57,20 @@ class GoogleCalenderFragment : Fragment() {
         val viewModelFactory = CalendarViewModelFactory((requireActivity().application as AssignmentApplication).repository)
         assignmentViewModel = ViewModelProvider(this, viewModelFactory).get(AssignmentViewModel::class.java)
 
+        classDatabase = ClassDatabase.getInstance(requireActivity())
+        classDao = classDatabase.classDao
+        classRepository = ClassRepository(classDao)
+        classViewModelFactory = ClassViewModelFactory(classRepository)
+        classViewModel = ViewModelProvider(this, classViewModelFactory).get(ClassViewModel::class.java)
+
         assignmentViewModel.myAllAssignments.observe(viewLifecycleOwner, Observer { assignments ->
             assignmentAdapter.setAssignment(assignments)
         })
 
-        classViewModel = ViewModelProvider(this, viewModelFactory).get(ClassViewModel::class.java)
+
+        /*classViewModel.allClasses.observe(viewLifecycleOwner, Observer { classes ->
+            classAdapter.setClasses(classes)
+        })*/
 
         calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             if (year == 0 && month == 0 && dayOfMonth == 0) {

@@ -33,17 +33,7 @@ class AssignmentViewModel(private val repository: AssignmentRepository) : ViewMo
 
 }
 
-class CalendarViewModelFactory(private val assignmentRepository: AssignmentRepository, private val classRepository: ClassRepository): ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return when {
-            modelClass.isAssignableFrom(AssignmentViewModel::class.java) -> AssignmentViewModel(assignmentRepository) as T
-            modelClass.isAssignableFrom(ClassViewModel::class.java) -> ClassViewModel(classRepository) as T
-            else -> throw IllegalArgumentException("Unknown ViewModel class")
-        }
-    }
-}
-
-/*class CalendarViewModelFactory(private var repository: AssignmentRepository):ViewModelProvider.Factory{
+class CalendarViewModelFactory(private var repository: AssignmentRepository):ViewModelProvider.Factory{
     override fun <T:ViewModel> create(modelClass: Class<T>):T{
         if(modelClass.isAssignableFrom(AssignmentViewModel::class.java)){
             return AssignmentViewModel(repository) as T
@@ -52,4 +42,4 @@ class CalendarViewModelFactory(private val assignmentRepository: AssignmentRepos
         }
     }
 
-}*/
+}
