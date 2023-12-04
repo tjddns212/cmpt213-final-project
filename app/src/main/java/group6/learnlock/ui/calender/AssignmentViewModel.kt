@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 import java.util.Calendar
 
 class AssignmentViewModel(private val repository: AssignmentRepository) : ViewModel() {
-
     val myAllAssignments : LiveData<List<Assignment>> =repository.myAllAssignments.asLiveData()
 
     fun insert(assignment: Assignment) = viewModelScope.launch(Dispatchers.IO){
@@ -40,4 +39,5 @@ class CalendarViewModelFactory(private var repository: AssignmentRepository):Vie
             throw IllegalArgumentException("Unkown view model")
         }
     }
+
 }

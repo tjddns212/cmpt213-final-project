@@ -1,6 +1,7 @@
 package group6.learnlock.ui.calender
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.ShapeDrawable
@@ -25,7 +26,7 @@ import group6.learnlock.AssignmentApplication
 import group6.learnlock.databinding.FragmentGoogleCalendarBinding
 import group6.learnlock.model.Assignment
 import java.util.Calendar
-class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignmentsDeletedListener {
+class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignmentsDeletedListener{
     private var calendarAssignmentIds: MutableMap<Long, MutableSet<Int>> = mutableMapOf()
     private var _binding: FragmentGoogleCalendarBinding? = null
     private val binding get() = _binding!!
@@ -34,6 +35,9 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
     lateinit var assignmentViewModel: AssignmentViewModel
     lateinit var calendarView: CalendarView
     lateinit var integrateButton : Button
+    lateinit var addButton: Button
+    lateinit var classScheduleView: RecyclerView
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,7 +52,7 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         assignmentAdapter = AssignmentAdapter()
         recyclerView.adapter = assignmentAdapter
-
+        classScheduleView.layoutManager = LinearLayoutManager(requireContext())
 
 
         val viewModelFactory = CalendarViewModelFactory((requireActivity().application as AssignmentApplication).repository)
@@ -57,6 +61,23 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
         assignmentViewModel.myAllAssignments.observe(viewLifecycleOwner, Observer { assignments ->
             assignmentAdapter.setAssignment(assignments)
         })
+        assignmentViewModel.myAllAssignments.observe(viewLifecycleOwner, Observer { assignments ->
+            // Update RecyclerView with active assignments
+            val activeAssignments = assignments.filter { !it.isCompleted }
+            assignmentAdapter.setAssignment(activeAssignments)
+
+            // Filter active assignments that are already marked on the calendar
+            val markedActiveAssignments = activeAssignments.filter { assignment ->
+                calendarAssignmentIds.any { (_, assignmentIds) -> assignment.id in assignmentIds }
+            }
+
+            // Refresh the calendar with these assignments
+            refreshCalendarWithAssignments(markedActiveAssignments)
+            assignmentAdapter.clearSelection()
+
+        })
+
+
         integrateButton.setOnClickListener {
             val selectedAssignments = assignmentAdapter.getSelectedAssignments()
             addSelectedAssignmentsToCalendar(selectedAssignments)
@@ -74,6 +95,7 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
                 })
             }
         })
+
         loadAssignmentsFromSharedPreferences()
         updateCalendarEvents()
 
@@ -136,10 +158,16 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
         return layerDrawable
     }
     private fun showAssignmentsDialog(assignments: List<Assignment>) {
-        val dialog = AssignmentsDialogFragment.newInstance(assignments)
-        dialog.assignmentsDeletedListener = this
-        dialog.show(childFragmentManager, "AssignmentsDialog")
+        val fragmentManager = childFragmentManager
+        val existingFragment = fragmentManager.findFragmentByTag("AssignmentsDialog")
+
+        if (existingFragment == null) {
+            val dialog = AssignmentsDialogFragment.newInstance(assignments)
+            dialog.assignmentsDeletedListener = this
+            dialog.show(fragmentManager, "AssignmentsDialog")
+        }
     }
+
     override fun onAssignmentsDeleted(deletedAssignmentIds: List<Int>) {
         // Remove the deleted assignments from calendarAssignmentIds
         deletedAssignmentIds.forEach { id ->
@@ -207,7 +235,6 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
         addSelectedAssignmentsToCalendar(newAssignments)
         saveAssignmentsToSharedPreferences()
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
