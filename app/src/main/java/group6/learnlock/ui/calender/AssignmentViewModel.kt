@@ -7,6 +7,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import group6.learnlock.model.Assignment
 import group6.learnlock.repository.AssignmentRepository
+import group6.learnlock.repository.ClassRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -31,7 +32,18 @@ class AssignmentViewModel(private val repository: AssignmentRepository) : ViewMo
     }
 
 }
-class CalendarViewModelFactory(private var repository: AssignmentRepository):ViewModelProvider.Factory{
+
+class CalendarViewModelFactory(private val assignmentRepository: AssignmentRepository, private val classRepository: ClassRepository): ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return when {
+            modelClass.isAssignableFrom(AssignmentViewModel::class.java) -> AssignmentViewModel(assignmentRepository) as T
+            modelClass.isAssignableFrom(ClassViewModel::class.java) -> ClassViewModel(classRepository) as T
+            else -> throw IllegalArgumentException("Unknown ViewModel class")
+        }
+    }
+}
+
+/*class CalendarViewModelFactory(private var repository: AssignmentRepository):ViewModelProvider.Factory{
     override fun <T:ViewModel> create(modelClass: Class<T>):T{
         if(modelClass.isAssignableFrom(AssignmentViewModel::class.java)){
             return AssignmentViewModel(repository) as T
@@ -40,4 +52,4 @@ class CalendarViewModelFactory(private var repository: AssignmentRepository):Vie
         }
     }
 
-}
+}*/

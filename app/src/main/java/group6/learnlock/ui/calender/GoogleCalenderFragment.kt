@@ -58,16 +58,20 @@ class GoogleCalenderFragment : Fragment() {
         classViewModel = ViewModelProvider(this, viewModelFactory).get(ClassViewModel::class.java)
 
         calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
-            val selectedDate = Calendar.getInstance().apply {
-                set(year, month, dayOfMonth)
-                set(Calendar.HOUR_OF_DAY, 0)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-            }.time
-            classViewModel.getClassesForDate(selectedDate).observe(viewLifecycleOwner, Observer {classes ->
-                classAdapter.setClasses(classes)
-            })
+            if (year == 0 && month == 0 && dayOfMonth == 0) {
+                openWeeklyView()
+            } else {
+                val selectedDate = Calendar.getInstance().apply {
+                    set(year, month, dayOfMonth)
+                    set(Calendar.HOUR_OF_DAY, 0)
+                    set(Calendar.MINUTE, 0)
+                    set(Calendar.SECOND, 0)
+                    set(Calendar.MILLISECOND, 0)
+                }.time
+                classViewModel.getClassesForDate(selectedDate).observe(viewLifecycleOwner, Observer {classes ->
+                    classAdapter.setClasses(classes)
+                })
+            }
         }
 
         addButton.setOnClickListener{
@@ -76,6 +80,11 @@ class GoogleCalenderFragment : Fragment() {
         }
 
         return root
+    }
+
+    private fun openWeeklyView() {
+        val intent = Intent(requireContext(), WeeklyViewActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onDestroyView() {
