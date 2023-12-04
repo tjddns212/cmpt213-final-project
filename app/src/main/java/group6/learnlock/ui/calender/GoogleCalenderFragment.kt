@@ -62,6 +62,7 @@ class GoogleCalenderFragment : Fragment() {
         classRepository = ClassRepository(classDao)
         classViewModelFactory = ClassViewModelFactory(classRepository)
         classViewModel = ViewModelProvider(this, classViewModelFactory).get(ClassViewModel::class.java)
+        classAdapter = ClassAdapter()
 
         assignmentViewModel.myAllAssignments.observe(viewLifecycleOwner, Observer { assignments ->
             assignmentAdapter.setAssignment(assignments)

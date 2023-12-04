@@ -128,10 +128,26 @@ class AddClassActivity : AppCompatActivity() {
             for (day in daysOfWeek) {
                 val startTime = timePickers[day]?.first ?: ""
                 val endTime = timePickers[day]?.second ?: ""
+                var dayString:String = ""
+                if (day == "MON") {
+                    dayString = "MONDAY"
+                }
+                else if (day == "TUE") {
+                    dayString = "TUESDAY"
+                }
+                else if (day == "WED") {
+                    dayString = "WEDNESDAY"
+                }
+                else if (day == "THU") {
+                    dayString = "THURSDAY"
+                }
+                else if (day == "FRI") {
+                    dayString = "FRIDAY"
+                }
 
                 daySchedules.add(
                     DaySchedule(
-                    DayOfWeek.valueOf(day.toUpperCase(java.util.Locale.ROOT)),
+                    DayOfWeek.valueOf(dayString!!),
                         startTime,
                         endTime,
                         Date(),
