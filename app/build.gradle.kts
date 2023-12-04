@@ -45,6 +45,7 @@ android {
 dependencies {
     implementation("androidx.room:room-runtime:2.6.0")
     implementation("androidx.room:room-common:2.6.0")
+    implementation("androidx.compose.ui:ui-text-android:1.5.4")
     kapt("androidx.room:room-compiler:2.6.0")
 
     implementation("androidx.core:core-ktx:1.9.0")
@@ -63,8 +64,5 @@ dependencies {
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation ("com.applandeo:material-calendar-view:1.9.0-rc04")
     implementation ("com.google.code.gson:gson:2.10.1")
-
-
-
 
 }
