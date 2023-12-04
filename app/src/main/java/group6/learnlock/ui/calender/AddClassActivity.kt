@@ -145,17 +145,21 @@ class AddClassActivity : AppCompatActivity() {
                     dayString = "FRIDAY"
                 }
 
+                val selectedStartDate = getDateFromDatePicker(startDatePicker)
+                val selectedEndDate = getDateFromDatePicker(endDatePicker)
+
                 daySchedules.add(
                     DaySchedule(
                     DayOfWeek.valueOf(dayString),
                         startTime,
                         endTime,
-                        Date(),
-                        Date()
+                        selectedStartDate,
+                        selectedEndDate
                 ))
             }
-            val selectedStartDate = getDateFromDatePicker(startDatePicker)
-            val selectedEndDate = getDateFromDatePicker(endDatePicker)
+            val selectedStartDate = getDateFromDatePicker(startDatePicker).time
+            val selectedEndDate = getDateFromDatePicker(endDatePicker).time
+
             val classInstance = Class(className, daySchedules, emptyList(), selectedStartDate, selectedEndDate)
 
             saveClassToDatabase(classInstance)

@@ -36,12 +36,15 @@ class ClassAdapter: RecyclerView.Adapter<ClassAdapter.ClassViewHolder>() {
         holder.classNameTextView.text = currentClass.className
 
         val formatterTime = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val formatterDate = SimpleDateFormat("dd MMMM yyy", Locale.getDefault())
 
         val firstSchedule = currentClass.schedules?.first()
         if (firstSchedule != null) {
             val startTime = firstSchedule.startTime
             val endTime = firstSchedule.endTime
-            holder.description.text = ""
+            val startDate = formatterDate.format(firstSchedule.startDate)
+            val endDate = formatterDate.format(firstSchedule.endDate)
+            holder.description.text = "$startDate - $endDate"
 
             if (startTime != null && endTime != null) {
                 //val startString = formatterTime.format(startTime)

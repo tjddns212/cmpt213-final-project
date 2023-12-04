@@ -16,7 +16,6 @@ import com.google.gson.reflect.TypeToken
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.applandeo.materialcalendarview.CalendarView
@@ -28,9 +27,9 @@ import group6.learnlock.model.Assignment
 import group6.learnlock.repository.ClassRepository
 import group6.learnlock.room.ClassDao
 import group6.learnlock.room.ClassDatabase
-import java.time.LocalDate
 import java.util.Calendar
 import java.util.Date
+
 //wonky merge
 class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignmentsDeletedListener,
     AddAssignmentDialogFragment.AddAssignmentListener {
@@ -136,7 +135,8 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
                     set(Calendar.SECOND, 0)
                     set(Calendar.MILLISECOND, 0)
                 }.time
-                classViewModel.getClassesForDate(selectedDate).observe(viewLifecycleOwner, Observer {classes ->
+                val inputDate = Date(eventDay.calendar.timeInMillis).time
+                classViewModel.getClassesForDate(inputDate).observe(viewLifecycleOwner, Observer {classes ->
                     classAdapter.setClasses(classes)
                 })
             }

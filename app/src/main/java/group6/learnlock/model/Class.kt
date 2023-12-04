@@ -22,9 +22,9 @@ data class Class (
     @ColumnInfo(name = "assignment_column")
     val assignments: List<Assignment>,
     @ColumnInfo(name = "start_column")
-    val startDate: Date,
+    val startDate: Long,
     @ColumnInfo(name = "end_column")
-    val endDate: Date
+    val endDate: Long
 )
 
 data class DaySchedule(

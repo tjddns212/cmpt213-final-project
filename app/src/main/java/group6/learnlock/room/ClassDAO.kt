@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import group6.learnlock.model.Assignment
 import group6.learnlock.model.Class
 import kotlinx.coroutines.flow.Flow
 import java.util.Date

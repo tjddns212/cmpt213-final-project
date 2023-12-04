@@ -1,17 +1,10 @@
 package group6.learnlock.repository
 
-import android.graphics.Color
 import androidx.annotation.WorkerThread
-import androidx.room.Insert
-import group6.learnlock.model.Assignment
 import group6.learnlock.room.ClassDao
 import group6.learnlock.model.Class
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import java.util.Date
-import java.util.Random
 
 class ClassRepository(private val classDao: ClassDao) {
     val allClasses: Flow<List<Class>> = classDao.getClasses()
