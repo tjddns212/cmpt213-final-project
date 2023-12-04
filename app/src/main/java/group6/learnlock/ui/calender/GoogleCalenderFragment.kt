@@ -28,6 +28,7 @@ import group6.learnlock.model.Assignment
 import group6.learnlock.repository.ClassRepository
 import group6.learnlock.room.ClassDao
 import group6.learnlock.room.ClassDatabase
+import java.time.LocalDate
 import java.util.Calendar
 import java.util.Date
 //wonky merge
@@ -114,6 +115,11 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
                         showAssignmentsDialog(assignments)
                     }
                 })
+
+                val localDate = EventDay(Calendar.getInstance())
+                val year = localDate.calendar[Calendar.YEAR]
+                val month = localDate.calendar[Calendar.MONTH] + 1
+                val dayOfMonth = localDate.calendar[Calendar.DAY_OF_MONTH]
                 val selectedDate = Calendar.getInstance().apply {
                     set(year, month, dayOfMonth)
                     set(Calendar.HOUR_OF_DAY, 0)
