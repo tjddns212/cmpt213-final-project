@@ -57,21 +57,24 @@ class GoogleCalenderFragment : Fragment() {
         val viewModelFactory = CalendarViewModelFactory((requireActivity().application as AssignmentApplication).repository)
         assignmentViewModel = ViewModelProvider(this, viewModelFactory).get(AssignmentViewModel::class.java)
 
+        classAdapter = ClassAdapter()
+        classScheduleView.adapter = classAdapter
+
         classDatabase = ClassDatabase.getInstance(requireActivity())
         classDao = classDatabase.classDao
         classRepository = ClassRepository(classDao)
         classViewModelFactory = ClassViewModelFactory(classRepository)
         classViewModel = ViewModelProvider(this, classViewModelFactory).get(ClassViewModel::class.java)
-        classAdapter = ClassAdapter()
 
         assignmentViewModel.myAllAssignments.observe(viewLifecycleOwner, Observer { assignments ->
             assignmentAdapter.setAssignment(assignments)
         })
 
 
-        /*classViewModel.allClasses.observe(viewLifecycleOwner, Observer { classes ->
+        classViewModel.allClasses.observe(viewLifecycleOwner, Observer { classes ->
             classAdapter.setClasses(classes)
-        })*/
+            classAdapter.notifyDataSetChanged()
+        })
 
         calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             if (year == 0 && month == 0 && dayOfMonth == 0) {

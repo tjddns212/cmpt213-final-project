@@ -20,6 +20,7 @@ class ClassAdapter: RecyclerView.Adapter<ClassAdapter.ClassViewHolder>() {
         val classNameTextView: TextView = itemView.findViewById(R.id.courseTitleTextView)
         val startTimeTextView: TextView =itemView.findViewById(R.id.dueTimeTextView)
         val endTimeTextView: TextView =itemView.findViewById(R.id.dueDateTextView)
+        val description: TextView =itemView.findViewById(R.id.descriptionTitleTextView)
         val cardView: CardView =itemView.findViewById(R.id.cardView)
     }
     override fun onCreateViewHolder(
@@ -38,10 +39,20 @@ class ClassAdapter: RecyclerView.Adapter<ClassAdapter.ClassViewHolder>() {
 
         val firstSchedule = currentClass.schedules?.first()
         if (firstSchedule != null) {
-            val startString = formatterTime.format(firstSchedule.startTime)
-            val endString = formatterTime.format(firstSchedule.endTime)
-            holder.startTimeTextView.text = startString
-            holder.endTimeTextView.text = endString
+            val startTime = firstSchedule.startTime
+            val endTime = firstSchedule.endTime
+            holder.description.text = ""
+
+            if (startTime != null && endTime != null) {
+                //val startString = formatterTime.format(startTime)
+                //val endString = formatterTime.format(endTime)
+                holder.startTimeTextView.text = startTime
+                holder.endTimeTextView.text = endTime
+            } else {
+                // Handle null start or end time
+                holder.startTimeTextView.text = "N/A"
+                holder.endTimeTextView.text = "N/A"
+            }
         }
         holder.itemView.alpha = if (selectedPositions.contains(position)) 0.5f else 1.0f
         holder.itemView.setOnClickListener {

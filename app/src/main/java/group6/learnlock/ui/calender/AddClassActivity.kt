@@ -126,7 +126,7 @@ class AddClassActivity : AppCompatActivity() {
             val daySchedules = mutableListOf<DaySchedule>()
 
             for (day in daysOfWeek) {
-                val startTime = timePickers[day]?.first ?: ""
+                val startTime  = timePickers[day]?.first ?: ""
                 val endTime = timePickers[day]?.second ?: ""
                 var dayString:String = ""
                 if (day == "Mon") {
@@ -147,7 +147,7 @@ class AddClassActivity : AppCompatActivity() {
 
                 daySchedules.add(
                     DaySchedule(
-                    DayOfWeek.valueOf(dayString!!),
+                    DayOfWeek.valueOf(dayString),
                         startTime,
                         endTime,
                         Date(),
