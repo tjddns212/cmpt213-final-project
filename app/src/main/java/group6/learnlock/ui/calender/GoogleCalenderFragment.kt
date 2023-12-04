@@ -153,10 +153,16 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
         return layerDrawable
     }
     private fun showAssignmentsDialog(assignments: List<Assignment>) {
-        val dialog = AssignmentsDialogFragment.newInstance(assignments)
-        dialog.assignmentsDeletedListener = this
-        dialog.show(childFragmentManager, "AssignmentsDialog")
+        val fragmentManager = childFragmentManager
+        val existingFragment = fragmentManager.findFragmentByTag("AssignmentsDialog")
+
+        if (existingFragment == null) {
+            val dialog = AssignmentsDialogFragment.newInstance(assignments)
+            dialog.assignmentsDeletedListener = this
+            dialog.show(fragmentManager, "AssignmentsDialog")
+        }
     }
+
     override fun onAssignmentsDeleted(deletedAssignmentIds: List<Int>) {
         // Remove the deleted assignments from calendarAssignmentIds
         deletedAssignmentIds.forEach { id ->
