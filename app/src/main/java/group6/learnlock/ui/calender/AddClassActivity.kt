@@ -78,33 +78,33 @@ class AddClassActivity : AppCompatActivity() {
 
         tuesdayCheckBox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                addTimePicker("Mon")
+                addTimePicker("Tue")
             } else {
-                removeTimePicker("Mon")
+                removeTimePicker("Tue")
             }
         }
 
         wednesdayCheckBox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                addTimePicker("Mon")
+                addTimePicker("Wed")
             } else {
-                removeTimePicker("Mon")
+                removeTimePicker("Wed")
             }
         }
 
         thursdayCheckBox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                addTimePicker("Mon")
+                addTimePicker("Thu")
             } else {
-                removeTimePicker("Mon")
+                removeTimePicker("Thu")
             }
         }
 
         fridayCheckBox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                addTimePicker("Mon")
+                addTimePicker("Fri")
             } else {
-                removeTimePicker("Mon")
+                removeTimePicker("Fri")
             }
         }
 
@@ -129,19 +129,19 @@ class AddClassActivity : AppCompatActivity() {
                 val startTime = timePickers[day]?.first ?: ""
                 val endTime = timePickers[day]?.second ?: ""
                 var dayString:String = ""
-                if (day == "MON") {
+                if (day == "Mon") {
                     dayString = "MONDAY"
                 }
-                else if (day == "TUE") {
+                else if (day == "Tue") {
                     dayString = "TUESDAY"
                 }
-                else if (day == "WED") {
+                else if (day == "Wed") {
                     dayString = "WEDNESDAY"
                 }
-                else if (day == "THU") {
+                else if (day == "Thu") {
                     dayString = "THURSDAY"
                 }
-                else if (day == "FRI") {
+                else if (day == "Fri") {
                     dayString = "FRIDAY"
                 }
 
