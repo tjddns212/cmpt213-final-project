@@ -13,6 +13,9 @@ import java.util.Date
 import java.util.Locale
 
 class ClassAdapter: RecyclerView.Adapter<ClassAdapter.ClassViewHolder>() {
+    fun getSelectedClasses(): List<Class> {
+        return classes.filterIndexed { index, _ -> selectedPositions.contains(index) }
+    }
     private var classes: List<Class> = ArrayList()
     private val selectedPositions = mutableSetOf<Int>()
 
@@ -77,4 +80,9 @@ class ClassAdapter: RecyclerView.Adapter<ClassAdapter.ClassViewHolder>() {
         this.classes = classes
         notifyDataSetChanged()
     }
+    fun clearSelection() {
+        selectedPositions.clear()
+        notifyDataSetChanged() // Refresh the UI to reflect the change
+    }
+
 }
