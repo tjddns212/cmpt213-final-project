@@ -30,6 +30,10 @@ class AssignmentViewModel(private val repository: AssignmentRepository) : ViewMo
         return repository.getAssignmentsByIds(ids.toList()).asLiveData()
     }
 
+    suspend fun getCompletedAssignments(): LiveData<List<Assignment>>{
+        return repository.getDoneAssignments().asLiveData()
+    }
+
 }
 class CalendarViewModelFactory(private var repository: AssignmentRepository):ViewModelProvider.Factory{
     override fun <T:ViewModel> create(modelClass: Class<T>):T{

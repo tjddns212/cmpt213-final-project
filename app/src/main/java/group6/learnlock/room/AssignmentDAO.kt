@@ -30,7 +30,7 @@ interface AssignmentDAO {
     fun getAssignmentsByIds(ids: List<Int>): Flow<List<Assignment>>
 
     @Query("SELECT * FROM assignment_table WHERE isCompleted = 1")
-    suspend fun getCompletedAssignments()
+    suspend fun getCompletedAssignments(): Flow<List<Assignment>>
 
     @Query("UPDATE assignment_table SET isCompleted = 1 WHERE id = :assignmentId")
     suspend fun markAsCompleted(assignmentId: Int)

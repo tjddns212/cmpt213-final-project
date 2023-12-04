@@ -215,7 +215,7 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
         val sharedPreferences = requireActivity().getSharedPreferences("CalendarAssignments", Context.MODE_PRIVATE)
         val json = sharedPreferences.getString("assignments", null)
         json?.let {
-            val type = object : TypeToken<MutableMap<Long, MutableSet<Int>>>() {}.type
+            val type = object : com.google.gson.reflect.TypeToken<MutableMap<Long, MutableSet<Int>>>() {}.type
             calendarAssignmentIds = Gson().fromJson(it, type)
         }
     }
