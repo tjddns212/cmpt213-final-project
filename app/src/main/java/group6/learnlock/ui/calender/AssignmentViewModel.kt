@@ -30,7 +30,7 @@ class AssignmentViewModel(private val repository: AssignmentRepository) : ViewMo
         return repository.getAssignmentsByIds(ids.toList()).asLiveData()
     }
 
-    suspend fun getCompletedAssignments(): LiveData<List<Assignment>>{
+    fun getCompletedAssignments(): LiveData<List<Assignment>>{
         return repository.getDoneAssignments().asLiveData()
     }
 

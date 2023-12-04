@@ -12,6 +12,7 @@ class AssignmentRepository(private val assignmentDao:AssignmentDAO) {
 
     val myAllAssignments: Flow<List<Assignment>> = assignmentDao.getAllAssignments()
 
+
     fun getRandomColor(): Int {
         val rnd = Random()
         return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
@@ -44,7 +45,7 @@ class AssignmentRepository(private val assignmentDao:AssignmentDAO) {
     }
 
     @WorkerThread
-    suspend fun getDoneAssignments() : Flow<List<Assignment>>{
+     fun getDoneAssignments() : Flow<List<Assignment>>{
         return assignmentDao.getCompletedAssignments()
     }
 

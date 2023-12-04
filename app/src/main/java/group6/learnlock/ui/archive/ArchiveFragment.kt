@@ -25,7 +25,6 @@ import kotlinx.coroutines.newSingleThreadContext
 class ArchiveFragment : Fragment() {
 
     private var _binding: FragmentArchiveBinding? = null
-    private var compAssignment : Array<Assignment> = emptyArray<Assignment>()
     private lateinit var assignmentViewModel : AssignmentViewModel
 
 
@@ -42,8 +41,10 @@ class ArchiveFragment : Fragment() {
 
         val viewModelFactory = CalendarViewModelFactory((requireActivity().application as AssignmentApplication).repository)
         assignmentViewModel = ViewModelProvider(this, viewModelFactory).get(AssignmentViewModel::class.java)
-        val cor = CoroutineScope(newSingleThreadContext("get assignments"))
-        cor.launch{adapter.setAssignment(assignmentViewModel.getCompletedAssignments())}
+        assignmentViewModel.getCompletedAssignments().observe(viewLifecycleOwner, Observer { assignments ->
+            adapter.setAssignment(assignments)
+        })
+
 
         recyclerView.adapter = adapter
 
