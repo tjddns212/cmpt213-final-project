@@ -45,6 +45,7 @@ android {
 dependencies {
     implementation("androidx.room:room-runtime:2.6.0")
     implementation("androidx.room:room-common:2.6.0")
+    implementation("com.google.firebase:firebase-crashlytics-buildtools:2.9.9")
     kapt("androidx.room:room-compiler:2.6.0")
 
     implementation("androidx.core:core-ktx:1.9.0")

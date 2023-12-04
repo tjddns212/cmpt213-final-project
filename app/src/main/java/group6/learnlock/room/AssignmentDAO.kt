@@ -29,9 +29,11 @@ interface AssignmentDAO {
     @Query("SELECT * FROM assignment_table WHERE id IN (:ids)")
     fun getAssignmentsByIds(ids: List<Int>): Flow<List<Assignment>>
 
+    @Query("SELECT * FROM assignment_table WHERE isCompleted = 1")
+    suspend fun getCompletedAssignments()
+
     @Query("UPDATE assignment_table SET isCompleted = 1 WHERE id = :assignmentId")
     suspend fun markAsCompleted(assignmentId: Int)
-
 
 
 }

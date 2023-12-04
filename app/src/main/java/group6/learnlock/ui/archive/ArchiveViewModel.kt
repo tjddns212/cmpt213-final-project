@@ -3,10 +3,10 @@ package group6.learnlock.ui.archive
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import group6.learnlock.repository.AssignmentRepository
+import group6.learnlock.room.AssignmentDAO
 
 class ArchiveViewModel: ViewModel() {
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is archive Fragment"
-    }
-    val text: LiveData<String> = _text
+
+
 }
