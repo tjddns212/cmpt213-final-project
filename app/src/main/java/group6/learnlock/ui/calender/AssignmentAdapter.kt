@@ -36,6 +36,7 @@ class AssignmentAdapter
     }
 
     override fun onBindViewHolder(holder: AssignmentViewHolder, position: Int) {
+
         var currentAssignment: Assignment = assignments[position]
         holder.courseTitleTextView.text=currentAssignment.course
         holder.descriptionTextView.text= "Assignment: " + currentAssignment.description

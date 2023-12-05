@@ -2,6 +2,7 @@ package group6.learnlock.repository
 
 import android.graphics.Color
 import androidx.annotation.WorkerThread
+import androidx.lifecycle.LiveData
 import group6.learnlock.model.Assignment
 import group6.learnlock.room.AssignmentDAO
 import kotlinx.coroutines.flow.Flow
@@ -10,6 +11,7 @@ import java.util.Random
 class AssignmentRepository(private val assignmentDao:AssignmentDAO) {
 
     val myAllAssignments: Flow<List<Assignment>> = assignmentDao.getAllAssignments()
+
 
     fun getRandomColor(): Int {
         val rnd = Random()
@@ -36,12 +38,16 @@ class AssignmentRepository(private val assignmentDao:AssignmentDAO) {
     fun getAssignmentsByIds(ids: List<Int>): Flow<List<Assignment>> {
         return assignmentDao.getAssignmentsByIds(ids)
     }
+
     @WorkerThread
     suspend fun markAssignmentAsCompleted(assignmentId: Int) {
         assignmentDao.markAsCompleted(assignmentId)
     }
 
-
+    @WorkerThread
+     fun getDoneAssignments() : Flow<List<Assignment>>{
+        return assignmentDao.getCompletedAssignments()
+    }
 
 
 
