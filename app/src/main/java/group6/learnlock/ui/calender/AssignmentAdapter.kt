@@ -39,7 +39,7 @@ class AssignmentAdapter
 
         var currentAssignment: Assignment = assignments[position]
         holder.courseTitleTextView.text=currentAssignment.course
-        holder.descriptionTextView.text=currentAssignment.description
+        holder.descriptionTextView.text= "Assignment: " + currentAssignment.description
         holder.cardView.setCardBackgroundColor(currentAssignment.color)
 
         val formatterDate = SimpleDateFormat("MM-dd", Locale.getDefault())

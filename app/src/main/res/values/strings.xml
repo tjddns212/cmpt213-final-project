@@ -27,6 +27,9 @@
     <string name="confirm_delete_message">Are you sure you want to delete this flashcard?</string>
     <string name="delete">Delete</string>
     <string name="Cancel">Cancel</string>
+    <string name="stay_focused_channel_id">stay_focused_channel_id</string>
+    <string name="stay_focused_channel_name">Stay Focused Notifications</string>
+    <string name="stay_focused_channel_description">Notifications to stay focused while the timer is running.</string>
 
 
 

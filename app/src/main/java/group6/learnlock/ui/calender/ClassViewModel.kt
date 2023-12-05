@@ -5,9 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import group6.learnlock.model.Assignment
 import group6.learnlock.model.Class
-import group6.learnlock.repository.AssignmentRepository
 import group6.learnlock.repository.ClassRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,8 +28,8 @@ class ClassViewModel(private val repository: ClassRepository) : ViewModel() {
     fun deleteAll() = viewModelScope.launch(Dispatchers.IO){
         repository.deleteAll()
     }
-    fun getClassesForDate(selectedDate: Date): LiveData<List<Class>> {
-        return repository.getClassesForDate(selectedDate.time).asLiveData()
+    fun getClassesForDate(selectedDate: Long, selectedDayOfWeek: Int): LiveData<List<Class>> {
+        return repository.getClassesForDate(selectedDate, selectedDayOfWeek).asLiveData()
     }
 }
 

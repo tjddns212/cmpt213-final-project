@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Random
 
-@Database(entities = [Class::class], version = 1)
+@Database(entities = [Class::class], version = 2)
 abstract class ClassDatabase: RoomDatabase() {
     abstract val classDao: ClassDao
 
@@ -24,15 +24,16 @@ abstract class ClassDatabase: RoomDatabase() {
 
         fun getInstance(context: Context): ClassDatabase {
             synchronized(this) {
-             var instance = INSTANCE
-             if (instance == null) {
-                 instance = Room.databaseBuilder(context.applicationContext,
-                     ClassDatabase::class.java, "class_table").build()
-                 INSTANCE = instance
-             }
+                var instance = INSTANCE
+                if (instance == null) {
+                    instance = Room.databaseBuilder(context.applicationContext,
+                        ClassDatabase::class.java, "class_table")
+                        .fallbackToDestructiveMigration() // Add this line
+                        .build()
+                    INSTANCE = instance
+                }
                 return instance
             }
         }
     }
-
 }

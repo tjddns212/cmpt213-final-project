@@ -13,6 +13,9 @@ import java.util.Date
 import java.util.Locale
 
 class ClassAdapter: RecyclerView.Adapter<ClassAdapter.ClassViewHolder>() {
+    fun getSelectedClasses(): List<Class> {
+        return classes.filterIndexed { index, _ -> selectedPositions.contains(index) }
+    }
     private var classes: List<Class> = ArrayList()
     private val selectedPositions = mutableSetOf<Int>()
 
@@ -36,12 +39,15 @@ class ClassAdapter: RecyclerView.Adapter<ClassAdapter.ClassViewHolder>() {
         holder.classNameTextView.text = currentClass.className
 
         val formatterTime = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val formatterDate = SimpleDateFormat("dd MMMM yyy", Locale.getDefault())
 
         val firstSchedule = currentClass.schedules?.first()
         if (firstSchedule != null) {
             val startTime = firstSchedule.startTime
             val endTime = firstSchedule.endTime
-            holder.description.text = ""
+            val startDate = formatterDate.format(firstSchedule.startDate)
+            val endDate = formatterDate.format(firstSchedule.endDate)
+            holder.description.text = "$startDate - $endDate"
 
             if (startTime != null && endTime != null) {
                 //val startString = formatterTime.format(startTime)
@@ -74,4 +80,9 @@ class ClassAdapter: RecyclerView.Adapter<ClassAdapter.ClassViewHolder>() {
         this.classes = classes
         notifyDataSetChanged()
     }
+    fun clearSelection() {
+        selectedPositions.clear()
+        notifyDataSetChanged() // Refresh the UI to reflect the change
+    }
+
 }

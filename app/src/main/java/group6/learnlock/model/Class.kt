@@ -22,9 +22,19 @@ data class Class (
     @ColumnInfo(name = "assignment_column")
     val assignments: List<Assignment>,
     @ColumnInfo(name = "start_column")
-    val startDate: Date,
+    val startDate: Long,
     @ColumnInfo(name = "end_column")
-    val endDate: Date
+    val endDate: Long,
+    @ColumnInfo(name = "mon_column")
+    val mon: Boolean,
+    @ColumnInfo(name = "tue_column")
+    val tue: Boolean,
+    @ColumnInfo(name = "wed_column")
+    val wed: Boolean,
+    @ColumnInfo(name = "thu_column")
+    val thu: Boolean,
+    @ColumnInfo(name = "fri_column")
+    val fri: Boolean
 )
 
 data class DaySchedule(
@@ -94,4 +104,5 @@ class Converters {
     fun timestampToDate(timestamp: Long?): Date? {
         return timestamp?.let { Date(it) }
     }
+
 }

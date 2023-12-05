@@ -52,13 +52,13 @@ abstract class AssignmentDatabase : RoomDatabase(){
             INSTANCE?.let { database ->
                 scope.launch {
                     val assignmentDao = database.getAssignmentDao()
-                    /*assignmentDao.insert(Assignment("Title 3", "Description 1", timestamp,getRandomColor(),false))
+                    assignmentDao.insert(Assignment("Title 3", "Description 1", timestamp,getRandomColor(),false))
                     assignmentDao.insert(Assignment("Title 4", "Description 2", timestamp,getRandomColor(),false))
                     assignmentDao.insert(Assignment("Title 1", "Description 3", timestamp, getRandomColor(),false))
                     assignmentDao.insert(Assignment("Title 2", "Description 3", timestamp, getRandomColor(),false))
                     assignmentDao.insert(Assignment("Title 3", "Description 3", timestamp, getRandomColor(),false))
                     assignmentDao.insert(Assignment("Title 4", "Description 3", timestamp, getRandomColor(),false))
-                    assignmentDao.insert(Assignment("Title 5", "Description 3", timestamp, getRandomColor(),false))*/
+                    assignmentDao.insert(Assignment("Title 5", "Description 3", timestamp, getRandomColor(),false))
 
                 }
             }
