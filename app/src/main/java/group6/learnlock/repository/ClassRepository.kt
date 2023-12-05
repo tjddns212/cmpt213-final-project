@@ -30,7 +30,7 @@ class ClassRepository(private val classDao: ClassDao) {
     }
 
     @WorkerThread
-    fun getClassesForDate(selectedDate: Long): Flow<List<Class>> {
-        return classDao.getClassesForDate(selectedDate)
+    fun getClassesForDate(selectedDate: Long, selectedDayOfWeek: Int): Flow<List<Class>> {
+        return classDao.getClassesForDate(selectedDate, selectedDayOfWeek)
     }
 }

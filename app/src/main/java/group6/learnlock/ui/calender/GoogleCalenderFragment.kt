@@ -50,6 +50,7 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
     lateinit var integrateButton : Button
     lateinit var addButton: Button
     lateinit var addAssignmentButton: Button
+    lateinit var removeButton: Button
 
 
     override fun onCreateView(
@@ -69,6 +70,7 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
         assignmentAdapter = AssignmentAdapter()
         recyclerView.adapter = assignmentAdapter
         addAssignmentButton=binding.addAssignmentButton
+        removeButton = binding.removeButton
 
 
         val viewModelFactory = CalendarViewModelFactory((requireActivity().application as AssignmentApplication).repository)
@@ -106,6 +108,23 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
             assignmentAdapter.clearSelection()
 
         })
+        removeButton.setOnClickListener {
+            // Remove selected assignments
+            val selectedAssignments = assignmentAdapter.getSelectedAssignments()
+            selectedAssignments.forEach { assignment ->
+                assignmentViewModel.delete(assignment)
+            }
+
+            // Remove selected classes
+            val selectedClasses = classAdapter.getSelectedClasses()
+            selectedClasses.forEach { classItem ->
+                classViewModel.delete(classItem)
+            }
+            // Clear selection and refresh data
+            assignmentAdapter.clearSelection()
+            classAdapter.clearSelection()
+        }
+
 
 
         integrateButton.setOnClickListener {
@@ -136,7 +155,8 @@ class GoogleCalenderFragment : Fragment(),AssignmentsDialogFragment.OnAssignment
                     set(Calendar.MILLISECOND, 0)
                 }.time
                 val inputDate = Date(eventDay.calendar.timeInMillis).time
-                classViewModel.getClassesForDate(inputDate).observe(viewLifecycleOwner, Observer {classes ->
+                val dayOfWeek: Int = eventDay.calendar.get(Calendar.DAY_OF_WEEK)
+                classViewModel.getClassesForDate(inputDate, dayOfWeek).observe(viewLifecycleOwner, Observer {classes ->
                     classAdapter.setClasses(classes)
                 })
             }
